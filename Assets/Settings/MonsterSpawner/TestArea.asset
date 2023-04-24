@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327e50234b03c5a45b9e19cb55258d86, type: 3}
+  m_Name: TestArea
+  m_EditorClassIdentifier: 
+  _minSpawnInterval: 60
+  _maxSpawnInterval: 60
+  _monstersData:
+  - monsterPrefab: {fileID: 759946647578205214, guid: f0436132e93b20347b4e69a3a1fba9c1, type: 3}
+    probability: 10
+    minLevel: 1
+    maxLevel: 2
+    chance: 9
+  - monsterPrefab: {fileID: 759946647578205214, guid: f0436132e93b20347b4e69a3a1fba9c1, type: 3}
+    probability: 10
+    minLevel: 3
+    maxLevel: 4
+    chance: 9
+  - monsterPrefab: {fileID: 759946647578205214, guid: f0436132e93b20347b4e69a3a1fba9c1, type: 3}
+    probability: 100
+    minLevel: 4
+    maxLevel: 5
+    chance: 84

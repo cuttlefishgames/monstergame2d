@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5c1d7fc776e28f4d96cdf4b5c884bb3, type: 3}
+  m_Name: ElementChartSettings
+  m_EditorClassIdentifier: 
+  _elementsAdvantages:
+  - Element: 0
+    WeakTo: 2003000084030000
+    Resists: c8000000
+  - Element: 100
+    WeakTo: 00000000
+    Resists: 6400000020030000
+  - Element: 200
+    WeakTo: 580200002003000084030000
+    Resists: 64000000c800000090010000f4010000
+  - Element: 300
+    WeakTo: f4010000
+    Resists: 640000002c010000
+  - Element: 400
+    WeakTo: c80000002c010000bc020000
+    Resists: 900100005802000084030000
+  - Element: 500
+    WeakTo: c800000090010000
+    Resists: 000000002c010000f4010000
+  - Element: 600
+    WeakTo: 90010000f4010000bc020000
+    Resists: c80000005802000084030000
+  - Element: 700
+    WeakTo: 58020000
+    Resists: bc020000
+  - Element: 800
+    WeakTo: 64000000
+    Resists: 2003000084030000
+  - Element: 900
+    WeakTo: 6400000058020000
+    Resists: 00000000c8000000f4010000bc0200002003000084030000
+  - Element: 1000
+    WeakTo: 
+    Resists: 
+  _advantageMultiplier: 1.25
+  _disadvantageMultiplier: 0.75
