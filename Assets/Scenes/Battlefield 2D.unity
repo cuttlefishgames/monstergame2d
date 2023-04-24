@@ -6417,6 +6417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8b645a82027a1744b3ae02580e4e9a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _floorTransform: {fileID: 1006255292}
   _battlefieldcamera: {fileID: 1350325876}
   _animator: {fileID: 1854140017}
   _animationCrossFadeTime: 0.2

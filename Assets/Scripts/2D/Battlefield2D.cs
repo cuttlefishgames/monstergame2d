@@ -32,6 +32,8 @@ public class Battlefield2D : Singleton<Battlefield2D>
     public static Dictionary<BattlefieldCharacterPositions, Transform> CharacterPositions { get; private set; }
     public static Dictionary<BattlefieldPositions, Transform> Positions { get; private set; }
     public static Camera BattlefieldCamera => Instance._battlefieldcamera;
+    public static Transform FloorTransform => Instance._floorTransform;
+    [SerializeField] private Transform _floorTransform;
     [SerializeField] private Camera _battlefieldcamera;
     [SerializeField] private Animator _animator;
     //[SerializeField] private Animation _animation;

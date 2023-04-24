@@ -41,7 +41,7 @@ public class GameManager2D : Singleton<GameManager2D>
             LeftSideTeam.Concat(RightSideTeam).ToList().ForEach(e => e.SetSpritesObjectsLayer(Battlefield2D.LAYER_NAME));
         });
 
-        float increaseInterval = 0.5f;
+        float increaseInterval = 0.6f;
         foreach(var ent in LeftSideTeam)
         {
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.LEFT);
@@ -50,9 +50,10 @@ public class GameManager2D : Singleton<GameManager2D>
             sequence.AppendInterval(1);
             sequence.Append(ent.PositionTarget.DOMove(posTransform.position + Vector3.up * 40, 0));
             sequence.AppendInterval(increaseInterval);
-            increaseInterval += 0.5f;
+            increaseInterval += 0.6f;
             sequence.Append(ent.PositionTarget.DOMove(posTransform.position, 1).SetEase(Ease.OutQuad));
-            sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
+            //sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
+            sequence.Append(Battlefield2D.FloorTransform.DOShakePosition(0.25f, 0.25f, 30, 180));
         }
 
         foreach (var ent in RightSideTeam)
@@ -63,9 +64,10 @@ public class GameManager2D : Singleton<GameManager2D>
             sequence.AppendInterval(1);
             sequence.Append(ent.PositionTarget.DOMove(posTransform.position + Vector3.up * 40, 0));
             sequence.AppendInterval(increaseInterval);
-            increaseInterval += 0.5f;
+            increaseInterval += 0.6f;
             sequence.Append(ent.PositionTarget.DOMove(posTransform.position, 1).SetEase(Ease.OutQuad));
-            sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
+            //sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
+            sequence.Append(Battlefield2D.FloorTransform.DOShakePosition(0.25f, 0.25f, 30, 180));
         }
 
         Battlefield2D.Show();
