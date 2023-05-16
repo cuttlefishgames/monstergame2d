@@ -29,10 +29,10 @@ public class AIController2D : MonoBehaviour
     {
         get
         {
-            if (_entity != null)
-                return Entity;
-
-            _entity = GetComponent<Entity2D>();
+            if (_entity == null)
+            {
+                _entity = GetComponent<Entity2D>();
+            }
 
             return _entity;
         }
@@ -152,7 +152,10 @@ public class AIController2D : MonoBehaviour
 
     private void Update()
     {
-        _root.transform.position = _agent.transform.position + Vector3.down * _agent.baseOffset;
+        if (_agent.enabled)
+        {
+            _root.transform.position = _agent.transform.position + Vector3.down * _agent.baseOffset;
+        }
 
         if (_currentAction != null && !_currentAction.IsPerforming && _idleTimer >= _idlingLimit)
         {
@@ -181,7 +184,7 @@ public class AIController2D : MonoBehaviour
 
     public void UpdateFacingDirectionBasedOnPosition(float targetX, bool flipIfSame = false)
     {
-        var direction = PositionTarget.position.x < targetX ? FacingDirections.RIGHT : FacingDirections.LEFT;
+        var direction = Root.position.x < targetX ? FacingDirections.RIGHT : FacingDirections.LEFT;
         if (flipIfSame)
         {
             if (Agent.destination.x == targetX)

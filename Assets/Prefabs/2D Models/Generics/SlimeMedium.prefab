@@ -81,6 +81,9 @@ GameObject:
   - component: {fileID: 7616100089580962134}
   - component: {fileID: 7616100089580962135}
   - component: {fileID: 7616100089580962132}
+  - component: {fileID: 5541485658207149269}
+  - component: {fileID: 5284053542254993236}
+  - component: {fileID: 5741302443875579447}
   m_Layer: 0
   m_Name: SlimeMedium
   m_TagString: Untagged
@@ -117,54 +120,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aaaa6369d2d8b43a6ee97693e38480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformData:
-  - main: {fileID: 0}
-    target: {fileID: 6160318756123740204}
+  _bonesTransferData:
+  - bone: {fileID: 6160318756123740204}
+    transferPosition: 1
+    transferRotation: 1
+    transferScale: 1
+  - bone: {fileID: 2689018727449839100}
+    transferPosition: 1
+    transferRotation: 1
+    transferScale: 1
+  - bone: {fileID: 0}
+    transferPosition: 1
+    transferRotation: 1
+    transferScale: 1
+  - bone: {fileID: 0}
+    transferPosition: 1
+    transferRotation: 1
+    transferScale: 1
+  - bone: {fileID: 8483321467833706095}
     transferPosition: 0
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 2689018727449839100}
+  - bone: {fileID: 4674629175749749504}
     transferPosition: 0
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 8483321467833706095}
+  - bone: {fileID: 479749614480716977}
     transferPosition: 0
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 4674629175749749504}
+  - bone: {fileID: 1327735809605231894}
     transferPosition: 0
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 479749614480716977}
-    transferPosition: 0
+  - bone: {fileID: 7224853265875461592}
+    transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 1327735809605231894}
-    transferPosition: 0
+  - bone: {fileID: 3053776997957596758}
+    transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 7224853265875461592}
-    transferPosition: 0
+  - bone: {fileID: 6413179573135643959}
+    transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 3053776997957596758}
-    transferPosition: 0
-    transferRotation: 1
-    transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 6413179573135643959}
-    transferPosition: 0
-    transferRotation: 1
-    transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 6571113349252229304}
+  - bone: {fileID: 6571113349252229304}
     transferPosition: 0
     transferRotation: 1
     transferScale: 1
@@ -184,7 +185,7 @@ MonoBehaviour:
   _sortingGroup: {fileID: 2198464390818593257}
   _static: 0
   _offset: 0
-  _zOrder: 0
+  _zOrder: 160
 --- !u!114 &7616100089580962223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2617ed05cae9a4092b9b11e84a45ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _genericAnimatorPrefab: {fileID: 210101801568915767, guid: aec45a2d88888c94c8a996823bd49e00, type: 3}
+  _root: {fileID: 9043224524522101113}
+  _scalingTarget: {fileID: 3418109145575935335}
+  _baseStats: {fileID: 11400000, guid: c8bbdf7be0a4a5344b9af407f3fb8116, type: 2}
 --- !u!114 &7616100089580962134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +281,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeLimit: 0
+--- !u!114 &5541485658207149269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2198464390424933797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266bd7fedaca94e40ad60e932505f369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5284053542254993236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2198464390424933797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e508c525547a17d4c8b86178fe9a090a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _over: {fileID: 0}
+  _face: {fileID: 0}
+  _front_bottom: {fileID: 0}
+  _front_face: {fileID: 0}
+  _center: {fileID: 0}
+  _top: {fileID: 0}
+  _bottom: {fileID: 0}
+  _back: {fileID: 0}
+  _behind_bottom: {fileID: 0}
+  _behind_center: {fileID: 0}
+--- !u!210 &5741302443875579447
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2198464390424933797}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 160
 --- !u!1 &2578890380798186086
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +649,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 160
 --- !u!4 &2689018727449839100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4912349680190478932, guid: 7ffcc8ff21f582a468e9ba6f7bbd98dd, type: 3}

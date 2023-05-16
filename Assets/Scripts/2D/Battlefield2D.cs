@@ -54,8 +54,6 @@ public class Battlefield2D : Singleton<Battlefield2D>
     [SerializeField] private List<BattlefieldCharacterPositions> _addToTeamPriorityRight =
         new List<BattlefieldCharacterPositions> { BattlefieldCharacterPositions.RIGHT_MIDDLE, BattlefieldCharacterPositions.RIGHT_TOP, BattlefieldCharacterPositions.RIGHT_BOTTOM };
     private List<EntityBattlefieldInfo> _battlefieldInfo;
-    private List<EntityBattlefieldInfo> _leftSideInfo;
-    private List<EntityBattlefieldInfo> _rightSideInfo;
 
     protected override void Awake()
     {
@@ -83,21 +81,12 @@ public class Battlefield2D : Singleton<Battlefield2D>
         Positions.Add(BattlefieldPositions.FRONT_MIDDLE_RIGHT, Instance._frontOfMiddleRight);
 
         _battlefieldInfo = new List<EntityBattlefieldInfo>();
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_TOP });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_MIDDLE });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_BOTTOM });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_TOP });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_MIDDLE });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_BOTTOM });
-
-        _leftSideInfo = new List<EntityBattlefieldInfo>();
-        _rightSideInfo = new List<EntityBattlefieldInfo>();
-        _leftSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.LEFT_TOP));
-        _leftSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.LEFT_MIDDLE));
-        _leftSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.LEFT_BOTTOM));
-        _rightSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.RIGHT_TOP));
-        _rightSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.RIGHT_MIDDLE));
-        _rightSideInfo.Add(GetCharacterSlotByTag(BattlefieldCharacterPositions.RIGHT_BOTTOM));
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_TOP, Transform = _leftTop });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_MIDDLE, Transform = _leftMiddle });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_BOTTOM, Transform = _leftBottom });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_TOP, Transform = _rightTop });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_MIDDLE, Transform = _rightMiddle });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_BOTTOM, Transform = _rightBototm });   
     }
 
     public static void Show()
@@ -175,6 +164,11 @@ public class Battlefield2D : Singleton<Battlefield2D>
         return null;
     }
 
+    public static EntityBattlefieldInfo GetCharacterSlotByEntity(Entity2D entity)
+    {
+        return Instance._battlefieldInfo.Where(p => p.Entity == entity).FirstOrDefault();
+    }
+
     public static EntityBattlefieldInfo GetCharacterSlotByTag(BattlefieldCharacterPositions tag)
     {
         return Instance._battlefieldInfo.Where(p => p.PositionTag == tag).FirstOrDefault();
@@ -184,17 +178,112 @@ public class Battlefield2D : Singleton<Battlefield2D>
     {
         switch (side)
         {
-            case TeamSides.LEFT:
-                return Instance._leftSideInfo;
-            case TeamSides.RIGHT:
-                return Instance._rightSideInfo;
             default:
-                return Instance._leftSideInfo;
+                return Instance._battlefieldInfo.Where(
+                    e => e.PositionTag == BattlefieldCharacterPositions.LEFT_TOP ||
+                    e.PositionTag == BattlefieldCharacterPositions.LEFT_MIDDLE ||
+                    e.PositionTag == BattlefieldCharacterPositions.LEFT_BOTTOM
+                ).ToList();
+            case TeamSides.RIGHT:
+                return Instance._battlefieldInfo.Where(
+                    e => e.PositionTag == BattlefieldCharacterPositions.RIGHT_TOP ||
+                    e.PositionTag == BattlefieldCharacterPositions.RIGHT_MIDDLE ||
+                    e.PositionTag == BattlefieldCharacterPositions.LEFT_BOTTOM
+                ).ToList();
         }
     }
 
     public static Transform GetCharacterPositionByTag(BattlefieldCharacterPositions tag)
     {
         return CharacterPositions[tag];
+    }
+
+    public static List<Entity2D> GetAllCharactersAlive()
+    {
+        return Instance._battlefieldInfo.Select(e => e.Entity).ToList();
+    }
+
+    public static Transform GetCharacterFrontPosition(BattlefieldCharacterPositions characterPosition)
+    {
+        switch (characterPosition)
+        {
+            case BattlefieldCharacterPositions.LEFT_BOTTOM:
+                return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+            case BattlefieldCharacterPositions.LEFT_TOP:
+                return Positions[BattlefieldPositions.MIDDLE_TOP];
+            case BattlefieldCharacterPositions.RIGHT_BOTTOM:
+                return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+            case BattlefieldCharacterPositions.RIGHT_TOP:
+                return Positions[BattlefieldPositions.MIDDLE_TOP];
+            default:
+                return Positions[BattlefieldPositions.MIDDLE];
+        }
+    }
+
+    public static Transform GetCharacterFrontPosition(Entity2D entity)
+    {
+        var entityPositionSlot = GetCharacterSlotByEntity(entity);
+        switch (entityPositionSlot.PositionTag)
+        {
+            case BattlefieldCharacterPositions.LEFT_BOTTOM:
+                return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+            case BattlefieldCharacterPositions.LEFT_TOP:
+                return Positions[BattlefieldPositions.MIDDLE_TOP];
+            case BattlefieldCharacterPositions.RIGHT_BOTTOM:
+                return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+            case BattlefieldCharacterPositions.RIGHT_TOP:
+                return Positions[BattlefieldPositions.MIDDLE_TOP];
+            default:
+                return Positions[BattlefieldPositions.MIDDLE];
+        }
+    }
+
+    public static Transform HopToPositionToFieldPosition(HopToPositionsTags hopToPositionTag, Entity2D fromEntity, Entity2D toEntity)
+    {
+        var fromEntitySlot = GetCharacterSlotByEntity(fromEntity);
+        var toEntitySlot = GetCharacterSlotByEntity(toEntity);
+        switch (hopToPositionTag)
+        {
+            default:
+                return GetCharacterPositionByTag(fromEntitySlot.PositionTag);
+            case HopToPositionsTags.STAY_IN_PLACE:
+                return GetCharacterPositionByTag(fromEntitySlot.PositionTag);
+            case HopToPositionsTags.MIDDLE:
+                return Positions[BattlefieldPositions.MIDDLE];
+            case HopToPositionsTags.MIDDLE_OF_TEAM:
+                if(fromEntity.Side == TeamSides.LEFT)
+                {
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+                }
+                else
+                {
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+                }
+            case HopToPositionsTags.MIDDLE_OF_ENEMY_TEAM:
+                if (fromEntity.Side == TeamSides.LEFT)
+                {
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+                }
+                else
+                {
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+                }
+            case HopToPositionsTags.BACK_OF_SELF:
+                return GetCharacterFrontPosition(fromEntitySlot.PositionTag);
+            case HopToPositionsTags.FRONT_OF_SELF:
+                return GetCharacterFrontPosition(fromEntitySlot.PositionTag);
+            case HopToPositionsTags.FRONT_OF_TARGET:
+                return GetCharacterFrontPosition(toEntitySlot.PositionTag);
+            case HopToPositionsTags.BACK_OF_TARGET:
+                return GetCharacterFrontPosition(toEntitySlot.PositionTag);
+        }
     }
 }

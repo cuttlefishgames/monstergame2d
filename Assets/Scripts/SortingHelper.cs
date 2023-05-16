@@ -8,7 +8,7 @@ public class SortingHelper : MonoBehaviour
     [SerializeField] private Transform _sortingTransform;
     [SerializeField] private SortingGroup _sortingGroup;
     [SerializeField] private bool _static = true;
-    [SerializeField] private float _offset;
+    [SerializeField] private int _offset = 0;
     public int _zOrder;
 
     static int _layersShift = 20;
@@ -42,7 +42,7 @@ public class SortingHelper : MonoBehaviour
         {
             _sortingGroup = gameObject.AddComponent<SortingGroup>();
         }
-        _sortingGroup.sortingOrder = Mathf.FloorToInt(_sortingTransform.position.y * _scaler + _offset) * -_layersShift;
+        _sortingGroup.sortingOrder = Mathf.FloorToInt(_sortingTransform.position.y * _scaler) * -_layersShift + _offset;
         _zOrder = _sortingGroup.sortingOrder;
     }
 }

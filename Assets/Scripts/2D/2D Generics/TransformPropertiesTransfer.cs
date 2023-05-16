@@ -5,8 +5,7 @@ using System;
 
 public class TransformPropertiesTransfer : MonoBehaviour
 {
-    [Serializable]
-    public class TransformData 
+    public class TransferData 
     {
         public Transform main;
         public Transform target;
@@ -15,15 +14,45 @@ public class TransformPropertiesTransfer : MonoBehaviour
         public bool transferScale = true;
     }
 
-    [SerializeField] private List<TransformData> transformData = new List<TransformData>();
-
-    private void Update()
+    [Serializable]
+    public class BoneTransferData
     {
-        foreach(var pair in transformData)
+        public Transform bone;
+        public bool transferPosition = true;
+        public bool transferRotation = true;
+        public bool transferScale = true;
+    }
+
+    [SerializeField] private List<BoneTransferData> _bonesTransferData = new List<BoneTransferData>();
+    private List<TransferData> transferData = new List<TransferData>();
+
+    public void FillBones(List<Transform> bones)
+    {
+        int j = -1;
+        foreach(var boneData in _bonesTransferData)
+        {
+            j++;
+
+            if (boneData == null || boneData.bone == null)
+                continue;
+
+            var refBone = bones[j];
+            var transferData = new TransferData();
+            transferData.main = refBone;
+            transferData.target = boneData.bone;
+            transferData.transferPosition = boneData.transferPosition;
+            transferData.transferRotation = boneData.transferRotation;
+            transferData.transferScale = boneData.transferScale;
+            this.transferData.Add(transferData);
+        }
+    }
+
+    public void Transfer()
+    {
+        foreach(var pair in transferData)
         {
             if (pair.transferPosition)
             {
-                //pair.target.position = pair.main.position;
                 pair.target.localPosition = pair.main.localPosition;
             }
             if (pair.transferRotation)
@@ -34,6 +63,10 @@ public class TransformPropertiesTransfer : MonoBehaviour
             {
                 pair.target.localScale = pair.main.localScale;
             }
+
+            //pair.target.localPosition = pair.main.localPosition;
+            //pair.target.localRotation = pair.main.localRotation;
+            //pair.target.localScale = pair.main.localScale;
         }
     }
 }

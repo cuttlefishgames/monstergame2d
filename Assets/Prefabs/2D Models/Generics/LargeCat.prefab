@@ -329,12 +329,15 @@ GameObject:
   - component: {fileID: 4226387369889295800}
   - component: {fileID: 4226387369889295801}
   - component: {fileID: 4670534961727898198}
-  - component: {fileID: 9079574074566520335}
   - component: {fileID: 3665734562863429541}
+  - component: {fileID: 9079574074566520335}
   - component: {fileID: 2471254507229081215}
   - component: {fileID: 903204502753961155}
   - component: {fileID: 4414946004967682559}
   - component: {fileID: 3174761880798569499}
+  - component: {fileID: 2937220483444967390}
+  - component: {fileID: 435357836214307631}
+  - component: {fileID: 7607510408490146914}
   m_Layer: 0
   m_Name: LargeCat
   m_TagString: Untagged
@@ -371,64 +374,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aaaa6369d2d8b43a6ee97693e38480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transformData:
-  - main: {fileID: 0}
-    target: {fileID: 8167416572758159712}
+  _bonesTransferData:
+  - bone: {fileID: 8167416572758159712}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 104980363487001776}
+  - bone: {fileID: 104980363487001776}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 5713177196175967213}
+  - bone: {fileID: 5713177196175967213}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 8613223727042231129}
+  - bone: {fileID: 8613223727042231129}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 8834378697616320825}
+  - bone: {fileID: 8834378697616320825}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 2083346248988640356}
+  - bone: {fileID: 2083346248988640356}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 7351333315771940326}
+  - bone: {fileID: 7351333315771940326}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 2690909926665157498}
+  - bone: {fileID: 2690909926665157498}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 4640522466246925460}
+  - bone: {fileID: 4640522466246925460}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 1028110839540387610}
+  - bone: {fileID: 1028110839540387610}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 9017780453872462971}
+  - bone: {fileID: 9017780453872462971}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
-  - main: {fileID: 0}
-    target: {fileID: 9157207387710181876}
+  - bone: {fileID: 9157207387710181876}
     transferPosition: 1
     transferRotation: 1
     transferScale: 1
@@ -448,19 +439,7 @@ MonoBehaviour:
   _sortingGroup: {fileID: 4670534960732576213}
   _static: 0
   _offset: 1
-  _zOrder: -120
---- !u!114 &9079574074566520335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4226387369889295798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2617ed05cae9a4092b9b11e84a45ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _zOrder: -99
 --- !u!114 &3665734562863429541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +467,22 @@ MonoBehaviour:
   - {fileID: 8480389213908129758}
   - {fileID: 6837924566727133678}
   _mainAction: {fileID: 3174761880798569499}
+--- !u!114 &9079574074566520335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4226387369889295798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2617ed05cae9a4092b9b11e84a45ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _genericAnimatorPrefab: {fileID: 210101801568915767, guid: aec45a2d88888c94c8a996823bd49e00, type: 3}
+  _root: {fileID: 4536770868963171054}
+  _scalingTarget: {fileID: 5021274066899835398}
+  _baseStats: {fileID: 11400000, guid: 2103bc152dc432a4fae136414c66de66, type: 2}
 --- !u!114 &2471254507229081215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -541,6 +536,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeLimit: 0
+--- !u!114 &2937220483444967390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4226387369889295798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 266bd7fedaca94e40ad60e932505f369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &435357836214307631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4226387369889295798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e508c525547a17d4c8b86178fe9a090a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _over: {fileID: 0}
+  _face: {fileID: 0}
+  _front_bottom: {fileID: 0}
+  _front_face: {fileID: 0}
+  _center: {fileID: 0}
+  _top: {fileID: 0}
+  _bottom: {fileID: 0}
+  _back: {fileID: 0}
+  _behind_bottom: {fileID: 0}
+  _behind_center: {fileID: 0}
+--- !u!210 &7607510408490146914
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4226387369889295798}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -100
 --- !u!1 &4413786244654839969
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +630,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -120
+  m_SortingOrder: -99
 --- !u!1 &4789646617211640046
 GameObject:
   m_ObjectHideFlags: 0
