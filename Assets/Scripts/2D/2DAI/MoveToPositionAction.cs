@@ -28,6 +28,7 @@ public class MoveToPositionAction : IAAction2D
         IsPerforming = true;
         StopMoving();
         _moveToPosition = StartCoroutine(MoveToPosition());
+        base.Execute();
     }
 
     private void StopMoving()

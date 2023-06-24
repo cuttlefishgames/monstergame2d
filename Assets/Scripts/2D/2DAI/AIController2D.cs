@@ -51,6 +51,7 @@ public class AIController2D : MonoBehaviour
     {
         _pivot = pivot;
     }
+    [SerializeField] private Transform _navigationTransformFixer;
     [SerializeField] private AIController2D _target;
     public AIController2D Target => _target;
     public void SetTaret(AIController2D target)
@@ -77,6 +78,8 @@ public class AIController2D : MonoBehaviour
 
     private void Awake()
     {
+        _navigationTransformFixer.rotation = Quaternion.Euler(90, 0, 0);
+
         _originalScale = _root.localScale;
         _pivot = new Vector2(_root.position.x, _root.position.y);
 
@@ -109,17 +112,52 @@ public class AIController2D : MonoBehaviour
 
     private void OnEnable()
     {
-        _moveToRandomPositionAction.Ended += MoveToRandomPositionEndedListener;
+        UnsubscribeToEvents();
+        SubscribeToEvents();
     }
 
     private void OnDisable()
     {
-        _moveToRandomPositionAction.Ended -= MoveToRandomPositionEndedListener;
+        UnsubscribeToEvents();
     }
 
-    private void MoveToRandomPositionEndedListener()
+    private void SubscribeToEvents()
+    {
+        _moveToPositionAction.Started += MoveActionStarted;
+        _moveToRandomPositionAction.Started += MoveActionStarted;
+        _moveToTargetAction.Started += MoveActionStarted;
+        _followTargetAction.Started += MoveActionStarted;
+
+        _moveToPositionAction.Ended += MoveActionEnded;
+        _moveToRandomPositionAction.Ended += MoveActionEnded;
+        _moveToTargetAction.Ended += MoveActionEnded;
+        _followTargetAction.Ended += MoveActionEnded;
+    }
+
+    private void UnsubscribeToEvents()
+    {
+        _moveToPositionAction.Started -= MoveActionStarted;
+        _moveToRandomPositionAction.Started -= MoveActionStarted;
+        _moveToTargetAction.Started -= MoveActionStarted;
+        _followTargetAction.Started -= MoveActionStarted;
+
+        _moveToPositionAction.Ended -= MoveActionEnded;
+        _moveToRandomPositionAction.Ended -= MoveActionEnded;
+        _moveToTargetAction.Ended -= MoveActionEnded;
+        _followTargetAction.Ended -= MoveActionEnded;
+    }
+
+    private void MoveActionStarted()
     {
         //ExecuteCurrentAction();
+        this.Entity.SetAnimationState(1);
+        ResetIdlingTimer();
+    }
+
+    private void MoveActionEnded()
+    {
+        //ExecuteCurrentAction();
+        Idle();
         ResetIdlingTimer();
     }
 
@@ -152,14 +190,25 @@ public class AIController2D : MonoBehaviour
 
     private void Update()
     {
-        if (_agent.enabled)
-        {
-            _root.transform.position = _agent.transform.position + Vector3.down * _agent.baseOffset;
-        }
+        //if (_agent.enabled)
+        //{
+        //    _root.transform.position = _agent.transform.position + Vector3.down * _agent.baseOffset;
+        //}
 
-        if (_currentAction != null && !_currentAction.IsPerforming && _idleTimer >= _idlingLimit)
+        if (_idleTimer >= _idlingLimit)
         {
-            ExecuteCurrentAction();
+            if (_currentAction == null )
+            {
+                if(_mainAction != null)
+                {
+                    _currentAction = _mainAction;
+                }
+            }
+
+            if (_currentAction != null && !_currentAction.IsPerforming)
+            {
+                ExecuteCurrentAction();
+            }   
         }
         else
         {
@@ -170,6 +219,7 @@ public class AIController2D : MonoBehaviour
     public void Idle()
     {
         StopCurrentAction();
+        this.Entity.SetAnimationState(0);
         _currentAction = null;
         if (Agent.enabled)
         {

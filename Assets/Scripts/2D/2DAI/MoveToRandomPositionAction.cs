@@ -56,6 +56,7 @@ public class MoveToRandomPositionAction : IAAction2D
         IsPerforming = true;
         StopMovingToRandomPoint();
         _moveToRandomPoint = StartCoroutine(MoveToRandomPoint());
+        base.Execute();
     }
 
     private void StopMovingToRandomPoint()

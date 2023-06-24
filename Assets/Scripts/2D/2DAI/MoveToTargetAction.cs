@@ -33,6 +33,7 @@ public class MoveToTargetAction : IAAction2D
         IsPerforming = true;
         StopMoveToTarget();
         _moveToTarget = StartCoroutine(MoveToTarget());
+        base.Execute();
     }
 
     private void StopMoveToTarget()

@@ -10,14 +10,15 @@ public class Entity2D : MonoBehaviour
 {
     public int ActionPoints { get; private set; }
     public TeamSides Side => _side;
-    public Transform Root => _root;
-    public Transform ScalingTarget => _scalingTarget;
+    public Transform Root => transform;
+    public Transform ScalingTarget => transform;
     public Entity2DStats BaseStats => _baseStats;
-    [SerializeField] private GameObject _genericAnimatorPrefab;
-    [SerializeField] private Transform _root;
-    [SerializeField] private Transform _scalingTarget;
     [SerializeField] private Entity2DStats _baseStats;
-    private Animator _genericAnimator;
+    //[SerializeField] private GameObject _genericAnimatorPrefab;
+    //[SerializeField] private Transform _root;
+    //[SerializeField] private Transform _scalingTarget;
+    [SerializeField] private Animator _animator;
+    //private Animator _genericAnimator;
     private TeamSides _side = TeamSides.LEFT;
     
     private Entity2DEvents _events;
@@ -68,17 +69,22 @@ public class Entity2D : MonoBehaviour
         Events.SetParentEntity(this);
         AnimationController.SetParentEntity(this);
 
-        if(_genericAnimator == null)
-        {
-            var animatorObject = Instantiate(_genericAnimatorPrefab);
-            var transferer = animatorObject.GetComponent<Transferer>();
-            _genericAnimator = transferer.Animator;
-            animatorObject.name = name + "Generic Animator";
-            animatorObject.transform.SetParent(transform);
-            Transferer.FillBones(transferer.Bones);
-        }
-        AnimationController.SetAnimator(_genericAnimator);
+        //if(_genericAnimator == null)
+        //{
+        //    var animatorObject = Instantiate(_genericAnimatorPrefab);
+        //    var transferer = animatorObject.GetComponent<Transferer>();
+        //    _genericAnimator = transferer.Animator;
+        //    animatorObject.name = name + "Generic Animator";
+        //    animatorObject.transform.SetParent(transform);
+        //    Transferer.FillBones(transferer.Bones);
+        //}
+        AnimationController.SetAnimator(_animator);
         AnimationController.SetTrasnferer(Transferer);
+    }
+
+    public void SetAnimationState(int animationState)
+    {
+        _animator.SetInteger("State", animationState);
     }
 
     public void AddActionPoints(int actionPoints)

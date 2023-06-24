@@ -33,6 +33,7 @@ public class FollowTargetAction : IAAction2D
         IsPerforming = true;
         StopFollowTarget();
         _followTarget = StartCoroutine(FollowTarget());
+        base.Execute();
     }
 
     private void StopFollowTarget()

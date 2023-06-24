@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class IAAction2D : MonoBehaviour
 {
+    public delegate void OnIAAction2DStartedEvent();
+    public OnIAAction2DStartedEvent Started;
+
     public delegate void OnIAAction2DEndedEvent();
     public OnIAAction2DEndedEvent Ended;
 
@@ -45,7 +48,7 @@ public class IAAction2D : MonoBehaviour
         }
     }
 
-    public virtual void Execute() { }
+    public virtual void Execute() { OnStarted(); }
 
     public virtual bool Viable() { _viable = true; return _viable; }
     public virtual bool Interrupt()
@@ -55,6 +58,7 @@ public class IAAction2D : MonoBehaviour
     }
 
     public virtual void End() { _isPeforming = false; _viable = false; OnEnded(); }
+    public virtual void OnStarted() { Started?.Invoke(); }
     public virtual void OnEnded() { Ended?.Invoke(); }
 
     private void Update()
