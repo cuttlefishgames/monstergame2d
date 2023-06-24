@@ -205,7 +205,7 @@ public class AIController2D : MonoBehaviour
                 }
             }
 
-            if (_currentAction != null && !_currentAction.IsPerforming)
+            if (_currentAction != null && !_currentAction.IsPerforming && _agent.enabled)
             {
                 ExecuteCurrentAction();
             }   

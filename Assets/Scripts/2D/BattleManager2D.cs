@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class BattleManager2D : Singleton<BattleManager2D>
 {
     public static float FillLimit => Instance._fillLimit;
+    public static int BattlefieldLayer => Instance._battlefieldLayer;
+    [SerializeField] private int _battlefieldLayer;
     [SerializeField] private int _fillLimit = 2000;
     [SerializeField] private int _speedDamp = 0;
     [SerializeField] private float _fillSpeed = 1;
@@ -32,6 +34,15 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
         foreach(var posInfo in leftSidePositions)
         {
+            if (posInfo.Entity as UnityEngine.Object == null)
+                continue;
+
+            var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
+            if(sorter != null)
+            {
+                sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
+            }
+
             var slotObj = Instantiate(Instance._characterStateSlotPrefab);
             var slot = slotObj.GetComponent<CharacterStateSlot>();
             slot.ActionBar.SetEntity(posInfo.Entity);
@@ -42,6 +53,15 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
         foreach (var posInfo in rightSidePositions)
         {
+            if (posInfo.Entity as UnityEngine.Object == null)
+                continue;
+
+            var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
+            if (sorter != null)
+            {
+                sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
+            }
+
             var slotObj = Instantiate(Instance._characterStateSlotPrefab);
             var slot = slotObj.GetComponent<CharacterStateSlot>();
             slot.ActionBar.SetEntity(posInfo.Entity);
@@ -84,6 +104,20 @@ public class BattleManager2D : Singleton<BattleManager2D>
             }
 
             yield return Wait.ForEndOfFrame;
+        }
+    }
+
+    public static void SetGameLayerRecursive(GameObject _go, int _layer)
+    {
+        _go.layer = _layer;
+        foreach (Transform child in _go.transform)
+        {
+            child.gameObject.layer = _layer;
+
+            Transform _HasChildren = child.GetComponentInChildren<Transform>();
+            if (_HasChildren != null)
+                SetGameLayerRecursive(child.gameObject, _layer);
+
         }
     }
 }

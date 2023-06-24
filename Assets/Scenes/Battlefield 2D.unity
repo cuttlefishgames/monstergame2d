@@ -4517,7 +4517,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1350325874}
   - component: {fileID: 1350325876}
-  - component: {fileID: 1350325875}
   m_Layer: 3
   m_Name: BattlefieldCamera
   m_TagString: Untagged
@@ -4540,14 +4539,6 @@ Transform:
   m_Father: {fileID: 1854140016}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1350325875
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350325873}
-  m_Enabled: 1
 --- !u!20 &1350325876
 Camera:
   m_ObjectHideFlags: 0
@@ -4575,7 +4566,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

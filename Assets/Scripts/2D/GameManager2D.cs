@@ -56,6 +56,10 @@ public class GameManager2D : Singleton<GameManager2D>
         foreach (var ent in RightSideTeam)
         {
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.RIGHT);
+            
+            if (posInfo == null)
+                continue;
+
             var posTransform = Battlefield2D.GetCharacterPositionByTag(posInfo.PositionTag);
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(1);
@@ -72,6 +76,10 @@ public class GameManager2D : Singleton<GameManager2D>
         foreach (var ent in LeftSideTeam)
         {
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.LEFT);
+
+            if (posInfo == null)
+                continue;
+
             var posTransform = Battlefield2D.GetCharacterPositionByTag(posInfo.PositionTag);
             Sequence sequence = DOTween.Sequence();
             sequence.AppendInterval(1);
@@ -86,6 +94,14 @@ public class GameManager2D : Singleton<GameManager2D>
         }
 
         Battlefield2D.Show();
+        transform.DOMove(transform.position, 1).OnComplete(() =>
+        {
+            foreach (var ent in RightSideTeam.Concat(LeftSideTeam))
+            {
+                BattleManager2D.SetGameLayerRecursive(ent.Root.gameObject, BattleManager2D.BattlefieldLayer);
+            }
+
+        });
 
         transform.DOMove(transform.position, 5).OnComplete(() =>
         {

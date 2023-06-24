@@ -9,6 +9,7 @@ public class SortingHelper : MonoBehaviour
     [SerializeField] private SortingGroup _sortingGroup;
     [SerializeField] private bool _static = true;
     [SerializeField] private int _offset = 0;
+    public SortingGroup Group => _sortingGroup;
     public int _zOrder;
 
     static int _layersShift = 20;

@@ -124,6 +124,9 @@ public class Battlefield2D : Singleton<Battlefield2D>
 
     public static EntityBattlefieldInfo AddEntity(Entity2D entity, TeamSides side)
     {
+        if (entity as UnityEngine.Object == null)
+            return null;
+
         var pos = GetNextFreeCharacterSlotOfSide(side);
         if(pos == null)
         {
@@ -200,7 +203,7 @@ public class Battlefield2D : Singleton<Battlefield2D>
 
     public static List<Entity2D> GetAllCharactersAlive()
     {
-        return Instance._battlefieldInfo.Select(e => e.Entity).ToList();
+        return Instance._battlefieldInfo.Where(e => !e.Available).Select(e => e.Entity).ToList();
     }
 
     public static Transform GetCharacterFrontPosition(BattlefieldCharacterPositions characterPosition)
