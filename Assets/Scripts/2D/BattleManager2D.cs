@@ -30,10 +30,14 @@ public class BattleManager2D : Singleton<BattleManager2D>
     [SerializeField] private TextMeshProUGUI _move2Text;
     [SerializeField] private TextMeshProUGUI _move3Text;
     [SerializeField] private TextMeshProUGUI _move4Text;
+    [SerializeField] private TextMeshProUGUI _move5Text;
+    [SerializeField] private TextMeshProUGUI _move6Text;
     [SerializeField] private Button _move1Button;
     [SerializeField] private Button _move2Button;
     [SerializeField] private Button _move3Button;
     [SerializeField] private Button _move4Button;
+    [SerializeField] private Button _move5Button;
+    [SerializeField] private Button _move6Button;
     [SerializeField] private Button _backFromMovesButton;
 
     private Coroutine _fillBars;
@@ -62,10 +66,14 @@ public class BattleManager2D : Singleton<BattleManager2D>
         _move2Button.onClick.RemoveAllListeners();
         _move3Button.onClick.RemoveAllListeners();
         _move4Button.onClick.RemoveAllListeners();
+        _move5Button.onClick.RemoveAllListeners();
+        _move6Button.onClick.RemoveAllListeners();
         _move1Button.onClick.AddListener(() => { SelectMove(0); });
         _move2Button.onClick.AddListener(() => { SelectMove(1); });
         _move3Button.onClick.AddListener(() => { SelectMove(2); });
         _move4Button.onClick.AddListener(() => { SelectMove(3); });
+        _move5Button.onClick.AddListener(() => { SelectMove(4); });
+        _move6Button.onClick.AddListener(() => { SelectMove(5); });
 
         _backFromMovesButton.onClick.RemoveAllListeners();
         _backFromMovesButton.onClick.AddListener(BackFromMoves);
@@ -157,7 +165,6 @@ public class BattleManager2D : Singleton<BattleManager2D>
             Instance.StopCoroutine(Instance._fillBars);
         }
 
-
         Instance._fillBars = Instance.StartCoroutine(Instance.FillBarsCoroutine());
     }
 
@@ -198,10 +205,12 @@ public class BattleManager2D : Singleton<BattleManager2D>
         _battleMenuPanel.SetActive(true);
         _movesPanel.SetActive(false);
 
-        _move1Text.text = turnHolder.KnownMoves[0] != global::Moves.NONE ? turnHolder.KnownMoves[0].ToString() : "--";
-        _move2Text.text = turnHolder.KnownMoves[1] != global::Moves.NONE ? turnHolder.KnownMoves[1].ToString() : "--";
-        _move3Text.text = turnHolder.KnownMoves[2] != global::Moves.NONE ? turnHolder.KnownMoves[2].ToString() : "--";
-        _move4Text.text = turnHolder.KnownMoves[3] != global::Moves.NONE ? turnHolder.KnownMoves[3].ToString() : "--";
+        _move1Text.text = turnHolder.KnownMoves[0] != global::MovesIDs.NONE ? turnHolder.KnownMoves[0].ToString() : "--";
+        _move2Text.text = turnHolder.KnownMoves[1] != global::MovesIDs.NONE ? turnHolder.KnownMoves[1].ToString() : "--";
+        _move3Text.text = turnHolder.KnownMoves[2] != global::MovesIDs.NONE ? turnHolder.KnownMoves[2].ToString() : "--";
+        _move4Text.text = turnHolder.KnownMoves[3] != global::MovesIDs.NONE ? turnHolder.KnownMoves[3].ToString() : "--";
+        _move5Text.text = turnHolder.KnownMoves[4] != global::MovesIDs.NONE ? turnHolder.KnownMoves[4].ToString() : "--";
+        _move6Text.text = turnHolder.KnownMoves[5] != global::MovesIDs.NONE ? turnHolder.KnownMoves[5].ToString() : "--";
     }
 
     public static void SetGameLayerRecursive(GameObject _go, int _layer)

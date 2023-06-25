@@ -59,7 +59,7 @@ public enum AnimationFixedPoints
     BEHIND_CENTER = 9
 }
 
-public enum Moves 
+public enum MovesIDs 
 {
     NONE = -1,
     ONSLAUGHT = 0,

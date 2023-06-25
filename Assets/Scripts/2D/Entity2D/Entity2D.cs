@@ -18,14 +18,16 @@ public class Entity2D : MonoBehaviour
     public Transform ScalingTarget => transform;
     public Entity2DStats BaseStats => _baseStats;
     [SerializeField] private Entity2DStats _baseStats;
+    [SerializeField] private MovesLearnedByLevelUpData _movesLearnByLevelUp;
+    public MovesLearnedByLevelUpData MovesLearnedByLevelUp => _movesLearnByLevelUp;
     //[SerializeField] private GameObject _genericAnimatorPrefab;
     //[SerializeField] private Transform _root;
     //[SerializeField] private Transform _scalingTarget;
     [SerializeField] private Animator _animator;
     //private Animator _genericAnimator;
     private TeamSides _side = TeamSides.LEFT;
-    public List<Moves> KnownMoves => _knownMoves;
-    private List<Moves> _knownMoves = new List<Moves> { Moves.NONE, Moves.NONE, Moves.NONE, Moves.NONE };
+    public List<MovesIDs> KnownMoves => _knownMoves;
+    private List<MovesIDs> _knownMoves = new List<MovesIDs> { MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE };
     public int Level => _level;
     private int _level = 1;
 
@@ -92,12 +94,14 @@ public class Entity2D : MonoBehaviour
 
     public void SetData(MonstersManager.MonsterData2D data)
     {
-        _knownMoves = new List<Moves>()
+        _knownMoves = new List<MovesIDs>()
         {
             data.move1,
             data.move2,
             data.move3,
-            data.move4
+            data.move4,
+            data.move5,
+            data.move6
         };
 
         _id = data.id;

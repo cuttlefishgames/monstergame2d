@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1490fa749fa070f44bd77933338e354f, type: 3}
+  m_Name: MovesResources
+  m_EditorClassIdentifier: 
+  _resources:
+  - moveID: 0
+    movePrefab: {fileID: 1699851944324262975, guid: a8eba9e3179199445acd21a1c2e70e51, type: 3}
+  - moveID: 6
+    movePrefab: {fileID: 1699851944324262975, guid: f5d5e2022b3878d4c8ff52be798899b9, type: 3}

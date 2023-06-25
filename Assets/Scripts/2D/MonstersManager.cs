@@ -16,10 +16,12 @@ public class MonstersManager : Singleton<MonstersManager>
         public string nickName = string.Empty;
         public int level = 1;
         public int experience = 0;
-        public Moves move1 = Moves.NONE;
-        public Moves move2 = Moves.NONE;
-        public Moves move3 = Moves.NONE;
-        public Moves move4 = Moves.NONE;
+        public MovesIDs move1 = MovesIDs.NONE;
+        public MovesIDs move2 = MovesIDs.NONE;
+        public MovesIDs move3 = MovesIDs.NONE;
+        public MovesIDs move4 = MovesIDs.NONE;
+        public MovesIDs move5 = MovesIDs.NONE;
+        public MovesIDs move6 = MovesIDs.NONE;
         public int HPTrainingPoints = 0;
         public int SpeedTrainingPoints = 0;
         public int AttackTrainingPoints = 0;
@@ -33,10 +35,12 @@ public class MonstersManager : Singleton<MonstersManager>
         public Monster2DIDs id;
         public int minLevel = 1;
         public int maxLevel = 1;
-        public Moves move1 = Moves.NONE;
-        public Moves move2 = Moves.NONE;
-        public Moves move3 = Moves.NONE;
-        public Moves move4 = Moves.NONE;
+        public MovesIDs move1 = MovesIDs.NONE;
+        public MovesIDs move2 = MovesIDs.NONE;
+        public MovesIDs move3 = MovesIDs.NONE;
+        public MovesIDs move4 = MovesIDs.NONE;
+        public MovesIDs move5 = MovesIDs.NONE;
+        public MovesIDs move6 = MovesIDs.NONE;
         public int HPTrainingPoints = 0;
         public int SpeedTrainingPoints = 0;
         public int AttackTrainingPoints = 0;
@@ -56,12 +60,12 @@ public class MonstersManager : Singleton<MonstersManager>
     public static List<MonsterData2D> Monsters { get; private set; } = new List<MonsterData2D>();
     public static Dictionary<Monster2DIDs, GameObject> MonstersPrefabs => _monstersPrefabs;
     public static Dictionary<Monster2DIDs, GameObject> MonstersAnimatedSprites => _monstersAnimatedSprites;
-    public static MonstersResources Resources => Instance._resources;
+    public static MonstersResources Resources => Instance._monstersResources;
     private static readonly string PATH = "monsterManagerData.json";
     private static Dictionary<Monster2DIDs, GameObject> _monstersPrefabs = new Dictionary<Monster2DIDs, GameObject>();
     private static Dictionary<Monster2DIDs, GameObject> _monstersAnimatedSprites = new Dictionary<Monster2DIDs, GameObject>();
-    [SerializeField] private MonstersResources _resources;
-
+    [SerializeField] private MonstersResources _monstersResources;
+    [SerializeField] private MovesResources _movesResources;
 
     public static void Save()
     {
@@ -105,17 +109,41 @@ public class MonstersManager : Singleton<MonstersManager>
         var random = new System.Random();
         monsterData.id = createData.id;
         monsterData.guid = Guid.NewGuid().ToString();
-        monsterData.level = random.Next(createData.minLevel, createData.maxLevel);
-        monsterData.move1 = createData.move1;
-        monsterData.move2 = createData.move2;
-        monsterData.move3 = createData.move3;
-        monsterData.move4 = createData.move4;
+        monsterData.level = random.Next(createData.minLevel, createData.maxLevel);      
         monsterData.HPTrainingPoints = createData.HPTrainingPoints;
         monsterData.SpeedTrainingPoints = createData.SpeedTrainingPoints;
         monsterData.AttackTrainingPoints = createData.AttackTrainingPoints;
         monsterData.MagicTrainingPoints = createData.MagicTrainingPoints;
         monsterData.DefenseTrainingPoints = createData.DefenseTrainingPoints;
         monsterData.ResistanceTrainingPoints = createData.ResistanceTrainingPoints;
+
+        var moves = new List<MovesIDs>()
+        {
+            createData.move1,
+            createData.move2,
+            createData.move3,
+            createData.move4,
+            createData.move5,
+            createData.move6
+        };
+        var prefab = GetMonsterPrefab(createData.id);
+        var movesLearnByLevelData = prefab.GetComponent<Entity2D>().MovesLearnedByLevelUp;
+        int currentLevel = monsterData.level;
+        var availableMoves = movesLearnByLevelData.MovesLearnData.Select(m => m.move).Except(moves).ToList();
+        while(availableMoves.Count > 0 && moves.Any(m => m == MovesIDs.NONE))
+        {
+            var emptySlotIndex = moves.IndexOf(moves.Where(m => m == MovesIDs.NONE).FirstOrDefault());
+            var move = availableMoves.Last();
+            moves[emptySlotIndex] = move;
+            availableMoves.Remove(move);
+        }
+
+        monsterData.move1 = moves[0];
+        monsterData.move2 = moves[1];
+        monsterData.move3 = moves[2];
+        monsterData.move4 = moves[3];
+        monsterData.move5 = moves[4];
+        monsterData.move6 = moves[5];
 
         return monsterData;
     }
