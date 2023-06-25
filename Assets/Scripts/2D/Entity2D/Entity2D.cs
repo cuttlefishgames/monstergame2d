@@ -8,6 +8,10 @@ using UnityEngine;
 [RequireComponent(typeof(TransformPropertiesTransfer))]
 public class Entity2D : MonoBehaviour
 {
+    public Monster2DIDs ID => _id;
+    private Monster2DIDs _id = Monster2DIDs.NONE;
+    public string GUID => _guid;
+    private string _guid = string.Empty;
     public int ActionPoints { get; private set; }
     public TeamSides Side => _side;
     public Transform Root => transform;
@@ -20,7 +24,11 @@ public class Entity2D : MonoBehaviour
     [SerializeField] private Animator _animator;
     //private Animator _genericAnimator;
     private TeamSides _side = TeamSides.LEFT;
-    
+    public List<Moves> KnownMoves => _knownMoves;
+    private List<Moves> _knownMoves = new List<Moves> { Moves.NONE, Moves.NONE, Moves.NONE, Moves.NONE };
+    public int Level => _level;
+    private int _level = 1;
+
     private Entity2DEvents _events;
     public Entity2DEvents Events
     {
@@ -80,6 +88,21 @@ public class Entity2D : MonoBehaviour
         //}
         AnimationController.SetAnimator(_animator);
         AnimationController.SetTrasnferer(Transferer);
+    }
+
+    public void SetData(MonstersManager.MonsterData2D data)
+    {
+        _knownMoves = new List<Moves>()
+        {
+            data.move1,
+            data.move2,
+            data.move3,
+            data.move4
+        };
+
+        _id = data.id;
+        _guid = data.guid;
+        _level = data.level;
     }
 
     public void SetAnimationState(int animationState)

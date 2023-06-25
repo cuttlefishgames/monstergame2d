@@ -35,6 +35,16 @@ public enum HopToPositionsTags
 
 public enum TeamSides { LEFT = 0, RIGHT = 1 }
 
+public enum Stats
+{
+    HP = 0,
+    SPEED = 1,
+    ATTACK = 2,
+    MAGIC = 3,
+    DEFENSE = 4,
+    RESISTANCE = 5
+}
+
 public enum AnimationFixedPoints
 {
     OVER = 0,
@@ -48,3 +58,25 @@ public enum AnimationFixedPoints
     BEHIND_BOTTOM = 8,
     BEHIND_CENTER = 9
 }
+
+public enum Moves 
+{
+    NONE = -1,
+    ONSLAUGHT = 0,
+    TOPPLE = 1,
+    FOREST_BLAST = 2,
+    LASH = 3,
+    LEAF_ARMOR = 4,
+    DRAIN = 5,
+    FLAME = 6
+}
+
+public enum Monster2DIDs
+{
+    NONE = -1,
+    TSUCHIDRA = 0,
+    HOOTROOT = 1
+}
+
+
+

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1f111d2cbb5e64fb5409ea9fb02b56, type: 3}
+  m_Name: MonstersResources
+  m_EditorClassIdentifier: 
+  _resources:
+  - ID: 0
+    prefab: {fileID: 6257925081762813981, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
+    animatedSprite: {fileID: -8653719598885068355, guid: 1ee3a22874e71974bb4764c3d67a044e, type: 3}
+  - ID: 1
+    prefab: {fileID: 8401166246020924182, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
+    animatedSprite: {fileID: 6136318862547672753, guid: 26c3de1737a4cf941bd84a9070bf3838, type: 3}
