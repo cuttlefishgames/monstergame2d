@@ -17,9 +17,7 @@ public class GameManager2D : Singleton<GameManager2D>
 
     [Header("Test field")]
     public List<AIController2D> LeftSideTeam;
-    public List<AIController2D> RightSideTeam;
-    public List<AIController2D> LeftSideActionBars;
-    public List<AIController2D> RightSideActionBars;
+    public List<AIController2D> RightSideTeam;    
     public bool SummonBattleFieldAtStart;
 
     private void Start()
@@ -100,7 +98,6 @@ public class GameManager2D : Singleton<GameManager2D>
             {
                 BattleManager2D.SetGameLayerRecursive(ent.Root.gameObject, BattleManager2D.BattlefieldLayer);
             }
-
         });
 
         transform.DOMove(transform.position, 5).OnComplete(() =>

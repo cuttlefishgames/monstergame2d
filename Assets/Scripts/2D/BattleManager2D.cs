@@ -17,6 +17,8 @@ public class BattleManager2D : Singleton<BattleManager2D>
     [SerializeField] private GameObject _characterStateSlotPrefab;
     [SerializeField] private Transform _leftSideSlotsContent;
     [SerializeField] private Transform _rightSideSlotsContent;
+    public List<CharacterStateSlot> LeftSideCharacterSlots;
+    public List<CharacterStateSlot> RightSideCharacterSlots;
 
     //battle menu
     [SerializeField] private GameObject _battleMenuCanvas;
@@ -115,6 +117,8 @@ public class BattleManager2D : Singleton<BattleManager2D>
     {
         var leftSidePositions = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.LEFT);
         var rightSidePositions = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.RIGHT);
+        int leftSlotIndex = 0;
+        int rightSlotIndex = 0;
 
         foreach (var posInfo in leftSidePositions)
         {
@@ -127,12 +131,17 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
             }
 
-            var slotObj = Instantiate(Instance._characterStateSlotPrefab);
-            var slot = slotObj.GetComponent<CharacterStateSlot>();
-            slot.ActionBar.SetEntity(posInfo.Entity);
-            slot.transform.SetParent(Instance._leftSideSlotsContent);
-            slot.transform.localScale = Vector3.one;
-            Instance._leftSlots.Add(slot);
+            //var slotObj = Instantiate(Instance._characterStateSlotPrefab);
+            //var slot = slotObj.GetComponent<CharacterStateSlot>();
+            //slot.ActionBar.SetEntity(posInfo.Entity);
+            //slot.transform.SetParent(Instance._leftSideSlotsContent);
+            //slot.transform.localScale = Vector3.one;
+            //Instance._leftSlots.Add(slot);
+            var slot = Instance.LeftSideCharacterSlots[leftSlotIndex];
+            slot.SetEntity(posInfo.Entity);
+            slot.Show();
+            leftSlotIndex++;
+
         }
 
         foreach (var posInfo in rightSidePositions)
@@ -146,13 +155,17 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
             }
 
-            var slotObj = Instantiate(Instance._characterStateSlotPrefab);
-            var slot = slotObj.GetComponent<CharacterStateSlot>();
-            slot.ActionBar.SetEntity(posInfo.Entity);
-            slot.ActionBar.InvetValue();
-            slot.transform.SetParent(Instance._rightSideSlotsContent);
-            slot.transform.localScale = Vector3.one;
-            Instance._rightSlots.Add(slot);
+            //var slotObj = Instantiate(Instance._characterStateSlotPrefab);
+            //var slot = slotObj.GetComponent<CharacterStateSlot>();
+            //slot.ActionBar.SetEntity(posInfo.Entity);
+            //slot.ActionBar.InvetValue();
+            //slot.transform.SetParent(Instance._rightSideSlotsContent);
+            //slot.transform.localScale = Vector3.one;
+            //Instance._rightSlots.Add(slot);
+            var slot = Instance.RightSideCharacterSlots[rightSlotIndex];
+            slot.SetEntity(posInfo.Entity);
+            slot.Show();
+            rightSlotIndex++;
         }
 
         Instance._canvas.SetActive(true);

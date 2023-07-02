@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseStats: {fileID: 11400000, guid: b486dcc6d659ddb4e92c5cfe4c4f52cd, type: 2}
+  _movesLearnByLevelUp: {fileID: 0}
   _animator: {fileID: 6541664859323996316}
 --- !u!114 &1084435201522206453
 MonoBehaviour:
@@ -274,6 +275,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 281420207819786705, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 281420207819786705, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 281420207819786705, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 281420207819786705, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -318,8 +331,12 @@ PrefabInstance:
       value: TsuchidraAnimatedSprite
       objectReference: {fileID: 0}
     - target: {fileID: 3010768265969516897, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
+      propertyPath: m_Bounds.m_Center.x
+      value: -0.0011601374
+      objectReference: {fileID: 0}
+    - target: {fileID: 3010768265969516897, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.11883982
+      value: 0.1188399
       objectReference: {fileID: 0}
     - target: {fileID: 6909490758223645404, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -327,7 +344,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8414289738706511072, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.000000029802322
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
