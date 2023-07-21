@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Monster.Utils;
 using DG.Tweening;
 using System.Linq;
+using System;
 
 public class GameManager2D : Singleton<GameManager2D>
 {
@@ -105,6 +106,25 @@ public class GameManager2D : Singleton<GameManager2D>
             BattleManager2D.Show();
             BattleManager2D.FillBars();
         });
+    }
+
+    internal static List<MovesIDs> CreateMoveList(int level, MovesLearnedByLevelUpData movesLearnedByLevelUp)
+    {
+        var moves = new List<MovesIDs>();
+        for(int i = 0; i < 6; i++)
+        {
+            moves.Add(MovesIDs.NONE);
+        }
+
+        var possibleMoves = movesLearnedByLevelUp.MovesLearnData.Where(m => m.requiredLevel <= level).ToList();
+        var chosenMoves = possibleMoves.Skip(Math.Max(0, possibleMoves.Count - 6)).ToList();
+
+        for(int j = 0; j < chosenMoves.Count; j++)
+        {
+            moves[j] = chosenMoves[j].move;
+        }
+
+        return moves;
     }
 
     private void CorretDirection(List<AIController2D> controllers, Transform targetPos)

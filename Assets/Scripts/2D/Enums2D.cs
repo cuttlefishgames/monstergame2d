@@ -35,6 +35,17 @@ public enum HopToPositionsTags
 
 public enum TeamSides { LEFT = 0, RIGHT = 1 }
 
+public enum MovesTargets 
+{
+    SELF = 0,
+    ALL_ALLIES = 1,
+    ALL_ALLIES_MINUS_SELF = 2,
+    ALL = 3,
+    ALL_MINUS_SELF = 4,
+    ENEMY = 5,
+    ALL_ENEMIES = 6
+}
+
 public enum Stats
 {
     HP = 0,
@@ -68,7 +79,23 @@ public enum MovesIDs
     LASH = 3,
     LEAF_ARMOR = 4,
     DRAIN = 5,
-    FLAME = 6
+    FLAME = 6,
+    BITE = 7,
+    STAB = 8,
+    PECK = 9,
+    SCRATCH = 10,
+    CHARGE = 11,
+    STEAMROLLER = 12,
+    MAGMA_LASH = 13,
+    INCISIVE_CRUNCH = 14,
+    BURROW = 15,
+    TUNNEL_ATTACK = 16,
+    SCREECH = 17, 
+    SAND_BLAST = 18,
+    SAND_TORNADO = 19, 
+    LEAF_SWORD = 20,
+    ROCK_SHOT = 21,
+    EMBER_WIND = 22
 }
 
 public enum Monster2DIDs

@@ -191,7 +191,7 @@ public class Battlefield2D : Singleton<Battlefield2D>
                 return Instance._battlefieldInfo.Where(
                     e => e.PositionTag == BattlefieldCharacterPositions.RIGHT_TOP ||
                     e.PositionTag == BattlefieldCharacterPositions.RIGHT_MIDDLE ||
-                    e.PositionTag == BattlefieldCharacterPositions.LEFT_BOTTOM
+                    e.PositionTag == BattlefieldCharacterPositions.RIGHT_BOTTOM
                 ).ToList();
         }
     }

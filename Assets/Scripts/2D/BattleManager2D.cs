@@ -4,6 +4,7 @@ using UnityEngine;
 using Monster.Utils;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class BattleManager2D : Singleton<BattleManager2D>
 {
@@ -46,6 +47,9 @@ public class BattleManager2D : Singleton<BattleManager2D>
     private List<CharacterStateSlot> _leftSlots;
     private List<CharacterStateSlot> _rightSlots;
 
+    public Entity2D TurnHolder { get; private set; }
+    public MovesIDs CurrentSelectedMove { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -83,13 +87,29 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
     private void SelectMove(int moveSlot)
     {
+        var move = TurnHolder.KnownMoves[moveSlot];
+        if (move == MovesIDs.NONE)
+            return;
 
+        CurrentSelectedMove = move;
+
+        var moveData = MonstersManager.MovesResources.Resources.Where(m => m.moveID == CurrentSelectedMove).FirstOrDefault();
+        if(moveData != null)
+        {
+            var moveObjectInstance = Instantiate(moveData.movePrefab);
+            var order = moveObjectInstance.GetComponent<BattleOrder2D>();
+            order.SetCaster(TurnHolder);
+            var target = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.RIGHT).Select(s => s.Entity).FirstOrDefault();
+            order.SetTargets(new List<Entity2D> { target });
+            order.Execute();
+        }
     }
 
     private void BackFromMoves()
     {
         _movesPanel.gameObject.SetActive(false);
         _battleMenuPanel.gameObject.SetActive(true);
+        CurrentSelectedMove = MovesIDs.NONE;
     }
 
     private void Moves()
@@ -196,14 +216,16 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 {
                     hasFilled = true;
                     nextTurnHolder = ent;
-                    ent.ResetActionPoints();
+                    nextTurnHolder.ResetActionPoints();
+                    break;
                 }
             }
 
             yield return Wait.ForEndOfFrame;
         }
 
-        UpdateInterface(nextTurnHolder);
+        TurnHolder = nextTurnHolder;
+        UpdateInterface(TurnHolder);
     }
 
     private void UpdateInterface(Entity2D turnHolder)
@@ -218,12 +240,12 @@ public class BattleManager2D : Singleton<BattleManager2D>
         _battleMenuPanel.SetActive(true);
         _movesPanel.SetActive(false);
 
-        _move1Text.text = turnHolder.KnownMoves[0] != global::MovesIDs.NONE ? turnHolder.KnownMoves[0].ToString() : "--";
-        _move2Text.text = turnHolder.KnownMoves[1] != global::MovesIDs.NONE ? turnHolder.KnownMoves[1].ToString() : "--";
-        _move3Text.text = turnHolder.KnownMoves[2] != global::MovesIDs.NONE ? turnHolder.KnownMoves[2].ToString() : "--";
-        _move4Text.text = turnHolder.KnownMoves[3] != global::MovesIDs.NONE ? turnHolder.KnownMoves[3].ToString() : "--";
-        _move5Text.text = turnHolder.KnownMoves[4] != global::MovesIDs.NONE ? turnHolder.KnownMoves[4].ToString() : "--";
-        _move6Text.text = turnHolder.KnownMoves[5] != global::MovesIDs.NONE ? turnHolder.KnownMoves[5].ToString() : "--";
+        _move1Text.text = turnHolder.KnownMoves[0] != MovesIDs.NONE ? turnHolder.KnownMoves[0].ToString() : "--";
+        _move2Text.text = turnHolder.KnownMoves[1] != MovesIDs.NONE ? turnHolder.KnownMoves[1].ToString() : "--";
+        _move3Text.text = turnHolder.KnownMoves[2] != MovesIDs.NONE ? turnHolder.KnownMoves[2].ToString() : "--";
+        _move4Text.text = turnHolder.KnownMoves[3] != MovesIDs.NONE ? turnHolder.KnownMoves[3].ToString() : "--";
+        _move5Text.text = turnHolder.KnownMoves[4] != MovesIDs.NONE ? turnHolder.KnownMoves[4].ToString() : "--";
+        _move6Text.text = turnHolder.KnownMoves[5] != MovesIDs.NONE ? turnHolder.KnownMoves[5].ToString() : "--";
     }
 
     public static void SetGameLayerRecursive(GameObject _go, int _layer)

@@ -59,8 +59,8 @@ MonoBehaviour:
   _agent: {fileID: 1084435201522206456}
   _navigationTransformFixer: {fileID: 6030528973406225420}
   _target: {fileID: 0}
-  _minIdleTimer: 1.5
-  _maxIdletimer: 3
+  _minIdleTimer: 2.5
+  _maxIdletimer: 5
   _root: {fileID: 6360012677210276256}
   _scalingTarget: {fileID: 6360012677210276256}
   _mirrorTarget: {fileID: 6360012677210276256}
@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseStats: {fileID: 11400000, guid: b486dcc6d659ddb4e92c5cfe4c4f52cd, type: 2}
-  _movesLearnByLevelUp: {fileID: 0}
+  _movesLearnByLevelUp: {fileID: 11400000, guid: 3e560d28a7c9f8a4e82c46cce477a792, type: 2}
   _animator: {fileID: 6541664859323996316}
 --- !u!114 &1084435201522206453
 MonoBehaviour:
@@ -332,15 +332,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010768265969516897, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: -0.0011601374
+      value: -0.0011601821
       objectReference: {fileID: 0}
     - target: {fileID: 3010768265969516897, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.1188399
+      value: 0.118839815
       objectReference: {fileID: 0}
     - target: {fileID: 6909490758223645404, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0
+      value: 0.000000007450581
       objectReference: {fileID: 0}
     - target: {fileID: 8414289738706511072, guid: c6478b208ca705c47bbdfd4131eb5193, type: 3}
       propertyPath: m_Bounds.m_Center.x

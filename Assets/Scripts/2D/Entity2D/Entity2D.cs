@@ -26,8 +26,18 @@ public class Entity2D : MonoBehaviour
     [SerializeField] private Animator _animator;
     //private Animator _genericAnimator;
     private TeamSides _side = TeamSides.LEFT;
-    public List<MovesIDs> KnownMoves => _knownMoves;
-    private List<MovesIDs> _knownMoves = new List<MovesIDs> { MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE, MovesIDs.NONE };
+    public List<MovesIDs> KnownMoves
+    {
+        get
+        {
+            if(_knownMoves == null)
+            {
+                _knownMoves = GameManager2D.CreateMoveList(Level, MovesLearnedByLevelUp);
+            }
+            return _knownMoves;
+        }
+    }
+    private List<MovesIDs> _knownMoves;
     public int Level => _level;
     private int _level = 1;
 

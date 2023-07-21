@@ -9,7 +9,9 @@ public class MovesResources : ScriptableObject
     public class MoveResource
     {
         public MovesIDs moveID;
+        public MovesTargets target;
         public GameObject movePrefab;
+        public string moveName;
     }
 
     [SerializeField] private List<MoveResource> _resources;

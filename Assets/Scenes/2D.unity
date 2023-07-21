@@ -2035,11 +2035,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1598765937806629415, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: _zOrder
-      value: 380
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8115491557326880215, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: m_SortingOrder
-      value: 380
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8401166246020924182, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: m_Name
@@ -2868,7 +2868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &764275710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6101,11 +6101,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1084435201522206457, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
       propertyPath: _zOrder
-      value: -340
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3526738035181784073, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
       propertyPath: m_SortingOrder
-      value: -340
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 6257925081762813981, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
       propertyPath: m_Name
@@ -6376,6 +6376,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1084435201522206457, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
+      propertyPath: _zOrder
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526738035181784073, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
+      propertyPath: m_SortingOrder
+      value: 140
+      objectReference: {fileID: 0}
     - target: {fileID: 6257925081762813981, guid: d47e7d1d6b77a4d4abddcde2ef78b679, type: 3}
       propertyPath: m_Name
       value: Tsuchidra (1)
@@ -7620,11 +7628,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1598765937806629415, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: _zOrder
-      value: -240
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 8115491557326880215, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: m_SortingOrder
-      value: -240
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 8401166246020924182, guid: adc9a53d6b8b3054eb1332e098e3f4b4, type: 3}
       propertyPath: m_Name
@@ -8243,17 +8251,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4185845928152289668, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4185845928152289668, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4185845928152289668, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.8
+    - target: {fileID: 803655008047049571, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
+      propertyPath: _zOrder
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7423606260628057071, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
       propertyPath: m_RootOrder
@@ -8302,6 +8302,10 @@ PrefabInstance:
     - target: {fileID: 7610558826243863122, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
       propertyPath: m_Name
       value: Hedgehog
+      objectReference: {fileID: 0}
+    - target: {fileID: 7901801169356885139, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}
+      propertyPath: m_SortingOrder
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bc23c0a0789f2648a85f92dc1f29030, type: 3}

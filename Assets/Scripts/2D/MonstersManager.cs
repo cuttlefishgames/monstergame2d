@@ -60,12 +60,13 @@ public class MonstersManager : Singleton<MonstersManager>
     public static List<MonsterData2D> Monsters { get; private set; } = new List<MonsterData2D>();
     public static Dictionary<Monster2DIDs, GameObject> MonstersPrefabs => _monstersPrefabs;
     public static Dictionary<Monster2DIDs, GameObject> MonstersAnimatedSprites => _monstersAnimatedSprites;
-    public static MonstersResources Resources => Instance._monstersResources;
     private static readonly string PATH = "monsterManagerData.json";
     private static Dictionary<Monster2DIDs, GameObject> _monstersPrefabs = new Dictionary<Monster2DIDs, GameObject>();
     private static Dictionary<Monster2DIDs, GameObject> _monstersAnimatedSprites = new Dictionary<Monster2DIDs, GameObject>();
     [SerializeField] private MonstersResources _monstersResources;
+    public static MonstersResources MonstersResources => Instance._monstersResources;
     [SerializeField] private MovesResources _movesResources;
+    public static MovesResources MovesResources => Instance._movesResources;
 
     public static void Save()
     {
@@ -150,7 +151,7 @@ public class MonstersManager : Singleton<MonstersManager>
 
     public static GameObject GetMonsterPrefab(Monster2DIDs monsterId)
     {
-        var resource = Resources.Resources.Where(m => m.ID == monsterId).FirstOrDefault();
+        var resource = MonstersResources.Resources.Where(m => m.ID == monsterId).FirstOrDefault();
 
         if(resource == null)
         {
@@ -163,7 +164,7 @@ public class MonstersManager : Singleton<MonstersManager>
 
     public static GameObject GetMonsterAnimatedSprite(Monster2DIDs monsterId)
     {
-        var resource = Resources.Resources.Where(m => m.ID == monsterId).FirstOrDefault();
+        var resource = MonstersResources.Resources.Where(m => m.ID == monsterId).FirstOrDefault();
 
         if (resource == null)
         {
