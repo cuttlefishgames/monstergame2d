@@ -38,11 +38,20 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
   - name: ground
     uniqueID: 3664951353
     locked: 0
-  - name: Default
-    uniqueID: 0
+  - name: grass
+    uniqueID: 796092019
+    locked: 0
+  - name: shadow
+    uniqueID: 2844156983
+    locked: 0
+  - name: objects
+    uniqueID: 3532911305
     locked: 0
   - name: VFX
     uniqueID: 2607392083

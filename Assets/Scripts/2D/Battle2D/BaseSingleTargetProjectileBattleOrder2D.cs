@@ -73,7 +73,7 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
 
     IEnumerator ProjectileCoroutine()
     {
-        var target = _targets[0];
+        var target = Targets[0];
 
         //short delay before the whole thing starts
         if (_delayBeforeProjectile > 0)
@@ -81,7 +81,7 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
             yield return new WaitForSeconds(_delayBeforeProjectile);
         }
 
-        var castPoint = _caster.AnimationController.GetAnimationFixedPoint(_projectileSpawnPoint);
+        var castPoint = Caster.AnimationController.GetAnimationFixedPoint(_projectileSpawnPoint);
         if (_useProjectileCast && _projectileCastParticleData.Particle != null)
         {
             if (_projectileCastParticleData.FollowAnimationPoint)
@@ -178,17 +178,21 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
 
         _partBExecuted = true;
         IsExecuting = !(_partAExecuted && _partBExecuted);
+        if (!IsExecuting)
+        {
+            End();
+        }
     }
 
     private float ImpactTarget()
     {
-        var target = _targets[0];
+        var target = Targets[0];
         var targetOriginalPos = Battlefield2D.GetCharacterSlotByEntity(target);
-        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - _caster.Root.position.x, 0, 0));
+        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - Caster.Root.position.x, 0, 0));
 
         //play target's pain animation
         target.ScalingTarget.DOShakePosition(0.3f);
-        target.AnimationController.SetAnimation("Pain");
+        target.AnimationController.SetAnimationState(AnimationStates.FREEZE);
 
         //move target due to impact
         if (_knocksbackTarget)
@@ -197,7 +201,7 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
             sequence.AppendInterval(_knockBackDelay);
             sequence.Append(target.Root.transform.DOMove(targetOriginalPos.Transform.position + (direction * _knockBackDistance), _knockBackDuration).SetEase(Ease.OutExpo));
             sequence.Append(target.Root.transform.DOMove(targetOriginalPos.Transform.position, _knockBackReturnDuration).SetEase(Ease.InExpo));
-            sequence.OnComplete(() => { target.AnimationController.SetAnimation("Idle"); });
+            sequence.OnComplete(() => { target.AnimationController.SetAnimationState(AnimationStates.IDLE); });
         }
 
         return _knockBackDelay + _knockBackDuration + _knockBackReturnDuration;
@@ -207,13 +211,13 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
     {
         IsExecuting = true;
 
-        var target = _targets[0];
+        var target = Targets[0];
         var targetOriginalPos = Battlefield2D.GetCharacterSlotByEntity(target);
-        var jumpPos = _hopToPosition ? Battlefield2D.HopToPositionToFieldPosition(_hopToPositionsTag, _caster, target) : Battlefield2D.HopToPositionToFieldPosition(HopToPositionsTags.STAY_IN_PLACE, _caster, target);
-        var casterAnimatorController = _caster.AnimationController;
-        var casterOriginalPos = Battlefield2D.GetCharacterSlotByEntity(_caster);
+        var jumpPos = _hopToPosition ? Battlefield2D.HopToPositionToFieldPosition(_hopToPositionsTag, Caster, target) : Battlefield2D.HopToPositionToFieldPosition(HopToPositionsTags.STAY_IN_PLACE, Caster, target);
+        var casterAnimatorController = Caster.AnimationController;
+        var casterOriginalPos = Battlefield2D.GetCharacterSlotByEntity(Caster);
         var middlePos = Battlefield2D.Positions[BattlefieldPositions.MIDDLE];
-        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - _caster.Root.position.x, 0, 0));
+        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - Caster.Root.position.x, 0, 0));
 
         //place vfx
         //cast
@@ -221,12 +225,12 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
         {
             if (_userCastParticleData.FollowAnimationPoint)
             {
-                _userCastParticleData.Particle.transform.SetParent(_caster.Root);
+                _userCastParticleData.Particle.transform.SetParent(Caster.Root);
                 _userCastParticleData.Particle.transform.localScale = Vector3.one;
             }
 
             _userCastParticleData.Particle.transform.position =
-                _caster.AnimationController.GetAnimationFixedPoint(_userCastParticleData.PointTag).position;
+                Caster.AnimationController.GetAnimationFixedPoint(_userCastParticleData.PointTag).position;
         }
 
         //short delay before the whole thing starts
@@ -241,8 +245,8 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
             if (_hopToPositionsTag != HopToPositionsTags.STAY_IN_PLACE)
             {
                 //_caster.ScalingTarget.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
-                _caster.Root.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
-                _caster.AnimationController.SetAnimation("HopIn");
+                Caster.Root.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
+                //_caster.AnimationController.SetAnimation("HopIn");
                 yield return new WaitForSeconds(_hopDuration);
             }
         }
@@ -258,7 +262,7 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
             }
 
             //set cast animation
-            _caster.AnimationController.SetAnimation("Cast");
+            //_caster.AnimationController.SetAnimation("Cast");
 
             if (_castDuration > 0)
             {
@@ -267,13 +271,13 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
         }
 
         //set caster to idle again after hit
-        _caster.AnimationController.SetAnimation("CastRelease");
+        //_caster.AnimationController.SetAnimation("CastRelease");
         if (_releaseDuration > 0)
         {
             yield return new WaitForSeconds(_releaseDuration);
         }
 
-        _caster.AnimationController.SetAnimation("Idle");
+        Caster.AnimationController.SetAnimationState(AnimationStates.IDLE);
 
         if (_afterCastDelay > 0)
         {
@@ -281,7 +285,7 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
         }
 
         //return caster to oritinal position
-        _caster.Root.DOMove(casterOriginalPos.Transform.position, _hopDuration).SetEase(Ease.Linear);
+        Caster.Root.DOMove(casterOriginalPos.Transform.position, _hopDuration).SetEase(Ease.Linear);
 
         if (_userCastParticleData.Particle != null)
         {
@@ -290,5 +294,9 @@ public class BaseSingleTargetProjectileBattleOrder2D : BattleOrder2D
 
         _partAExecuted = true;
         IsExecuting = !(_partAExecuted && _partBExecuted);
+        if (!IsExecuting)
+        {
+            End();
+        }
     }
 }

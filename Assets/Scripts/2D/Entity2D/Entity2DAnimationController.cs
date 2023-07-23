@@ -92,15 +92,23 @@ public class Entity2DAnimationController : Entity2DComponent
         }
     }
 
-    public void SetAnimation(string animation, float transition = 0.25f)
+    public void SetAnimationState(AnimationStates state)
     {
         if (_animator != null)
         {
-            _animator.CrossFade(animation, transition);
+            _animator.SetInteger("State", (int)state);
         }
-        //else if (_transferer != null)
-        //{
-        //    _transferer.Animator.CrossFade(animation, transition);
-        //}
     }
+
+    //public void SetAnimation(string animation, float transition = 0.25f)
+    //{
+    //    if (_animator != null)
+    //    {
+    //        _animator.CrossFade(animation, transition);
+    //    }
+    //    //else if (_transferer != null)
+    //    //{
+    //    //    _transferer.Animator.CrossFade(animation, transition);
+    //    //}
+    //}
 }

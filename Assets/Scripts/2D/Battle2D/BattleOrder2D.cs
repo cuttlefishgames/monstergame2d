@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleOrder2D : MonoBehaviour
+public class BattleOrder2D : BattleEvent
 {
     [System.Serializable]
     public class VFXData
@@ -17,17 +17,11 @@ public class BattleOrder2D : MonoBehaviour
     [SerializeField] protected List<Monster.DamageSettings> _damageSettings;
 
     protected Coroutine _excute;
-    protected Entity2D _caster;
-    protected List<Entity2D> _targets;
 
-    public virtual void SetCaster(Entity2D caster)
+    public override void Resolve()
     {
-        _caster = caster;
-    }
-
-    public virtual void SetTargets(List<Entity2D> targets)
-    {
-        _targets = targets;
+        base.Resolve();
+        Execute();
     }
 
     public virtual void Execute()
@@ -40,5 +34,6 @@ public class BattleOrder2D : MonoBehaviour
     {
         //clear any stuff left
         IsExecuting = false;
+        Resolved = true;
     }
 }

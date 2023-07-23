@@ -150,7 +150,7 @@ public class AIController2D : MonoBehaviour
     private void MoveActionStarted()
     {
         //ExecuteCurrentAction();
-        this.Entity.SetAnimationState(1);
+        this.Entity.AnimationController.SetAnimationState(AnimationStates.WALK);
         ResetIdlingTimer();
     }
 
@@ -219,7 +219,7 @@ public class AIController2D : MonoBehaviour
     public void Idle()
     {
         StopCurrentAction();
-        this.Entity.SetAnimationState(0);
+        this.Entity.AnimationController.SetAnimationState(AnimationStates.IDLE);
         _currentAction = null;
         if (Agent.enabled)
         {

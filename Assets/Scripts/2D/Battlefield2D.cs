@@ -39,20 +39,33 @@ public class Battlefield2D : Singleton<Battlefield2D>
     //[SerializeField] private Animation _animation;
     [SerializeField] private float _animationCrossFadeTime = 0.2f;
     [SerializeField] private Transform _leftTop;
-    [SerializeField] private Transform _leftMiddle;
+    [SerializeField] private Transform _leftMiddle1;
+    [SerializeField] private Transform _leftMiddle2;
     [SerializeField] private Transform _leftBottom;
     [SerializeField] private Transform _rightTop;
-    [SerializeField] private Transform _rightMiddle;
+    [SerializeField] private Transform _rightMiddle1;
+    [SerializeField] private Transform _rightMiddle2;
     [SerializeField] private Transform _rightBototm;
     [SerializeField] private Transform _middle;
     [SerializeField] private Transform _middleTop;
     [SerializeField] private Transform _middleBottom;
-    [SerializeField] private Transform _frontOfMiddleLeft;
-    [SerializeField] private Transform _frontOfMiddleRight;
+    [SerializeField] private Transform _frontOfMiddleLeft1;
+    [SerializeField] private Transform _frontOfMiddleLeft2;
+    [SerializeField] private Transform _frontOfMiddleRight1;
+    [SerializeField] private Transform _frontOfMiddleRight2;
     [SerializeField] private List<BattlefieldCharacterPositions> _addToTeamPriorityLeft =
-        new List<BattlefieldCharacterPositions> { BattlefieldCharacterPositions .LEFT_MIDDLE, BattlefieldCharacterPositions.LEFT_TOP, BattlefieldCharacterPositions.LEFT_BOTTOM };
+        new List<BattlefieldCharacterPositions> {
+            BattlefieldCharacterPositions.LEFT_MIDDLE_1,
+            BattlefieldCharacterPositions.LEFT_MIDDLE_2,
+            BattlefieldCharacterPositions.LEFT_TOP,
+            BattlefieldCharacterPositions.LEFT_BOTTOM };
+
     [SerializeField] private List<BattlefieldCharacterPositions> _addToTeamPriorityRight =
-        new List<BattlefieldCharacterPositions> { BattlefieldCharacterPositions.RIGHT_MIDDLE, BattlefieldCharacterPositions.RIGHT_TOP, BattlefieldCharacterPositions.RIGHT_BOTTOM };
+        new List<BattlefieldCharacterPositions> { 
+            BattlefieldCharacterPositions.RIGHT_MIDDLE_1,
+            BattlefieldCharacterPositions.RIGHT_MIDDLE_2,
+            BattlefieldCharacterPositions.RIGHT_TOP,
+            BattlefieldCharacterPositions.RIGHT_BOTTOM };
     private List<EntityBattlefieldInfo> _battlefieldInfo;
 
     protected override void Awake()
@@ -66,10 +79,12 @@ public class Battlefield2D : Singleton<Battlefield2D>
         //character positions
         CharacterPositions = new Dictionary<BattlefieldCharacterPositions, Transform>();
         CharacterPositions.Add(BattlefieldCharacterPositions.LEFT_TOP, Instance._leftTop);
-        CharacterPositions.Add(BattlefieldCharacterPositions.LEFT_MIDDLE, Instance._leftMiddle);
+        CharacterPositions.Add(BattlefieldCharacterPositions.LEFT_MIDDLE_1, Instance._leftMiddle1);
+        CharacterPositions.Add(BattlefieldCharacterPositions.LEFT_MIDDLE_2, Instance._leftMiddle2);
         CharacterPositions.Add(BattlefieldCharacterPositions.LEFT_BOTTOM, Instance._leftBottom);
         CharacterPositions.Add(BattlefieldCharacterPositions.RIGHT_TOP, Instance._rightTop);
-        CharacterPositions.Add(BattlefieldCharacterPositions.RIGHT_MIDDLE, Instance._rightMiddle);
+        CharacterPositions.Add(BattlefieldCharacterPositions.RIGHT_MIDDLE_1, Instance._rightMiddle1);
+        CharacterPositions.Add(BattlefieldCharacterPositions.RIGHT_MIDDLE_2, Instance._rightMiddle2);
         CharacterPositions.Add(BattlefieldCharacterPositions.RIGHT_BOTTOM, Instance._rightBototm);
 
         //positions
@@ -77,15 +92,20 @@ public class Battlefield2D : Singleton<Battlefield2D>
         Positions.Add(BattlefieldPositions.MIDDLE, Instance._middle);
         Positions.Add(BattlefieldPositions.MIDDLE_TOP, Instance._middleTop);
         Positions.Add(BattlefieldPositions.MIDDLE_BOTTOM, Instance._middleBottom);
-        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_LEFT, Instance._frontOfMiddleLeft);
-        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_RIGHT, Instance._frontOfMiddleRight);
+        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_LEFT_1, Instance._frontOfMiddleLeft1);
+        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_LEFT_2, Instance._frontOfMiddleLeft2);
+        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_RIGHT_1, Instance._frontOfMiddleRight1);
+        Positions.Add(BattlefieldPositions.FRONT_MIDDLE_RIGHT_2, Instance._frontOfMiddleRight2);
 
         _battlefieldInfo = new List<EntityBattlefieldInfo>();
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_MIDDLE_1, Transform = _leftMiddle1 });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_MIDDLE_2, Transform = _leftMiddle2 });
         _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_TOP, Transform = _leftTop });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_MIDDLE, Transform = _leftMiddle });
         _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.LEFT_BOTTOM, Transform = _leftBottom });
+
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_MIDDLE_1, Transform = _rightMiddle1 });
+        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_MIDDLE_2, Transform = _rightMiddle2 });
         _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_TOP, Transform = _rightTop });
-        _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_MIDDLE, Transform = _rightMiddle });
         _battlefieldInfo.Add(new EntityBattlefieldInfo() { Entity = null, PositionTag = BattlefieldCharacterPositions.RIGHT_BOTTOM, Transform = _rightBototm });   
     }
 
@@ -184,13 +204,15 @@ public class Battlefield2D : Singleton<Battlefield2D>
             default:
                 return Instance._battlefieldInfo.Where(
                     e => e.PositionTag == BattlefieldCharacterPositions.LEFT_TOP ||
-                    e.PositionTag == BattlefieldCharacterPositions.LEFT_MIDDLE ||
+                    e.PositionTag == BattlefieldCharacterPositions.LEFT_MIDDLE_1 ||
+                    e.PositionTag == BattlefieldCharacterPositions.LEFT_MIDDLE_2 ||
                     e.PositionTag == BattlefieldCharacterPositions.LEFT_BOTTOM
                 ).ToList();
             case TeamSides.RIGHT:
                 return Instance._battlefieldInfo.Where(
                     e => e.PositionTag == BattlefieldCharacterPositions.RIGHT_TOP ||
-                    e.PositionTag == BattlefieldCharacterPositions.RIGHT_MIDDLE ||
+                    e.PositionTag == BattlefieldCharacterPositions.RIGHT_MIDDLE_1 ||
+                    e.PositionTag == BattlefieldCharacterPositions.RIGHT_MIDDLE_2 ||
                     e.PositionTag == BattlefieldCharacterPositions.RIGHT_BOTTOM
                 ).ToList();
         }
@@ -212,14 +234,18 @@ public class Battlefield2D : Singleton<Battlefield2D>
         {
             case BattlefieldCharacterPositions.LEFT_BOTTOM:
                 return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
-            case BattlefieldCharacterPositions.LEFT_MIDDLE:
-                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE_1:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_1];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE_2:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_2];
             case BattlefieldCharacterPositions.LEFT_TOP:
                 return Positions[BattlefieldPositions.MIDDLE_TOP];
             case BattlefieldCharacterPositions.RIGHT_BOTTOM:
                 return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
-            case BattlefieldCharacterPositions.RIGHT_MIDDLE:
-                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE_1:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_1];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE_2:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_2];
             case BattlefieldCharacterPositions.RIGHT_TOP:
                 return Positions[BattlefieldPositions.MIDDLE_TOP];
             default:
@@ -234,14 +260,18 @@ public class Battlefield2D : Singleton<Battlefield2D>
         {
             case BattlefieldCharacterPositions.LEFT_BOTTOM:
                 return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
-            case BattlefieldCharacterPositions.LEFT_MIDDLE:
-                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE_1:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_1];
+            case BattlefieldCharacterPositions.LEFT_MIDDLE_2:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_2];
             case BattlefieldCharacterPositions.LEFT_TOP:
                 return Positions[BattlefieldPositions.MIDDLE_TOP];
             case BattlefieldCharacterPositions.RIGHT_BOTTOM:
                 return Positions[BattlefieldPositions.MIDDLE_BOTTOM];
-            case BattlefieldCharacterPositions.RIGHT_MIDDLE:
-                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE_1:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_1];
+            case BattlefieldCharacterPositions.RIGHT_MIDDLE_2:
+                return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_2];
             case BattlefieldCharacterPositions.RIGHT_TOP:
                 return Positions[BattlefieldPositions.MIDDLE_TOP];
             default:
@@ -264,20 +294,20 @@ public class Battlefield2D : Singleton<Battlefield2D>
             case HopToPositionsTags.MIDDLE_OF_TEAM:
                 if(fromEntity.Side == TeamSides.LEFT)
                 {
-                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_1];
                 }
                 else
                 {
-                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_1];
                 }
             case HopToPositionsTags.MIDDLE_OF_ENEMY_TEAM:
                 if (fromEntity.Side == TeamSides.LEFT)
                 {
-                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT];
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_RIGHT_1];
                 }
                 else
                 {
-                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT];
+                    return Positions[BattlefieldPositions.FRONT_MIDDLE_LEFT_1];
                 }
             case HopToPositionsTags.BACK_OF_SELF:
                 return GetCharacterFrontPosition(fromEntitySlot.PositionTag);

@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum CharacterSlotStates
+{
+    IDLE = 0,
+    HIGHLIGHT = 1,
+    GREYED_OUT = 2,
+    HIDDEN = 3
+}
+
 public enum BattlefieldCharacterPositions 
 { 
     LEFT_TOP = 0,
-    LEFT_MIDDLE = 1,
+    LEFT_MIDDLE_1 = 1,
+    LEFT_MIDDLE_2 = 6,
     LEFT_BOTTOM = 2,
     RIGHT_TOP = 3,
-    RIGHT_MIDDLE = 4,
+    RIGHT_MIDDLE_1 = 4,
+    RIGHT_MIDDLE_2 = 7,
     RIGHT_BOTTOM = 5 
 }
 
@@ -17,8 +28,17 @@ public enum BattlefieldPositions
     MIDDLE = 0,
     MIDDLE_TOP = 1,
     MIDDLE_BOTTOM = 2,
-    FRONT_MIDDLE_LEFT = 3,
-    FRONT_MIDDLE_RIGHT = 4
+    FRONT_MIDDLE_LEFT_1 = 3,
+    FRONT_MIDDLE_LEFT_2 = 5,
+    FRONT_MIDDLE_RIGHT_1 = 4,
+    FRONT_MIDDLE_RIGHT_2 = 6
+}
+
+public enum AnimationStates
+{
+    IDLE = 0,
+    WALK = 1,
+    FREEZE = 2
 }
 
 public enum HopToPositionsTags
@@ -34,6 +54,17 @@ public enum HopToPositionsTags
 }
 
 public enum TeamSides { LEFT = 0, RIGHT = 1 }
+
+public enum Sizes
+{
+    TINY = 0,
+    SMALL = 1,
+    MEDIUM = 2,
+    LARGE = 3,
+    GIANT = 4,
+    TITAN = 5,
+    GODZILLA = 6
+}
 
 public enum MovesTargets 
 {

@@ -31,6 +31,9 @@ public class GameManager2D : Singleton<GameManager2D>
 
     public void TestBattlefied()
     {
+
+        float totalTimer = 0;
+
         if (Battlefield2D.IsShowing)
         {
             return;
@@ -45,6 +48,7 @@ public class GameManager2D : Singleton<GameManager2D>
         LeftSideTeam.Concat(RightSideTeam).ToList().ForEach(e => e.Idle());
         LeftSideTeam.Concat(RightSideTeam).ToList().ForEach(e => e.SetAgentState(false));
 
+        totalTimer += 1.2f;
         transform.DOMove(transform.position, 1.2f).OnComplete(() => 
         {
             CorretDirection(LeftSideTeam.Concat(RightSideTeam).ToList(), Battlefield2D.GetPositionByTag(BattlefieldPositions.MIDDLE));
@@ -54,6 +58,8 @@ public class GameManager2D : Singleton<GameManager2D>
         float increaseInterval = 0.0f;
         foreach (var ent in RightSideTeam)
         {
+            ent.Entity.AnimationController.SetAnimationState(AnimationStates.FREEZE);
+
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.RIGHT);
             
             if (posInfo == null)
@@ -70,10 +76,13 @@ public class GameManager2D : Singleton<GameManager2D>
             sequence.Append(ent.Root.DOMove(posTransform.position, 1).SetEase(Ease.OutQuad));
             //sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
             sequence.Append(Battlefield2D.FloorTransform.DOShakePosition(0.25f, 0.25f, 30, 180));
+            sequence.OnComplete(() => { ent.Entity.AnimationController.SetAnimationState(AnimationStates.IDLE); });
         }
 
         foreach (var ent in LeftSideTeam)
         {
+            ent.Entity.AnimationController.SetAnimationState(AnimationStates.FREEZE);
+
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.LEFT);
 
             if (posInfo == null)
@@ -90,6 +99,7 @@ public class GameManager2D : Singleton<GameManager2D>
             sequence.Append(ent.Root.DOMove(posTransform.position, 1).SetEase(Ease.OutQuad));
             //sequence.Append(Battlefield2D.BattlefieldCamera.DOShakePosition(0.25f, 0.25f, 30, 180));
             sequence.Append(Battlefield2D.FloorTransform.DOShakePosition(0.25f, 0.25f, 30, 180));
+            sequence.OnComplete(() => { ent.Entity.AnimationController.SetAnimationState(AnimationStates.IDLE); });
         }
 
         Battlefield2D.Show();
@@ -101,7 +111,8 @@ public class GameManager2D : Singleton<GameManager2D>
             }
         });
 
-        transform.DOMove(transform.position, 5).OnComplete(() =>
+        totalTimer += increaseInterval;
+        transform.DOMove(transform.position, totalTimer).OnComplete(() =>
         {
             BattleManager2D.Show();
             BattleManager2D.FillBars();

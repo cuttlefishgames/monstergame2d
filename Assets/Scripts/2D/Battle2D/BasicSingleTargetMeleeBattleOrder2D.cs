@@ -61,13 +61,13 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
     {
         IsExecuting = true;
         
-        var target = _targets[0];
+        var target = Targets[0];
         var targetOriginalPos = Battlefield2D.GetCharacterSlotByEntity(target);
-        var jumpPos = _hopToPosition ? Battlefield2D.HopToPositionToFieldPosition(_hopToPositionsTag, _caster, target) : Battlefield2D.HopToPositionToFieldPosition(HopToPositionsTags.STAY_IN_PLACE, _caster, target);
-        var casterAnimatorController = _caster.AnimationController;
-        var casterOriginalPos = Battlefield2D.GetCharacterSlotByEntity(_caster);
+        var jumpPos = _hopToPosition ? Battlefield2D.HopToPositionToFieldPosition(_hopToPositionsTag, Caster, target) : Battlefield2D.HopToPositionToFieldPosition(HopToPositionsTags.STAY_IN_PLACE, Caster, target);
+        var casterAnimatorController = Caster.AnimationController;
+        var casterOriginalPos = Battlefield2D.GetCharacterSlotByEntity(Caster);
         var middlePos = Battlefield2D.Positions[BattlefieldPositions.MIDDLE];
-        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - _caster.Root.position.x, 0, 0));
+        var direction = Vector3.Normalize(new Vector3(target.Root.position.x - Caster.Root.position.x, 0, 0));
 
         //place vfx
         //cast
@@ -75,24 +75,24 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
         {
             if (_castParticleData.FollowAnimationPoint)
             {
-                _castParticleData.Particle.transform.SetParent(_caster.Root);
+                _castParticleData.Particle.transform.SetParent(Caster.Root);
                 _castParticleData.Particle.transform.localScale = Vector3.one;
             }
 
             _castParticleData.Particle.transform.position = 
-                _caster.AnimationController.GetAnimationFixedPoint(_castParticleData.PointTag).position;
+                Caster.AnimationController.GetAnimationFixedPoint(_castParticleData.PointTag).position;
         }
         //aura
         if (_auraParticleData != null)
         {
             if (_auraParticleData.FollowAnimationPoint)
             {
-                _auraParticleData.Particle.transform.SetParent(_caster.Root);
+                _auraParticleData.Particle.transform.SetParent(Caster.Root);
                 _auraParticleData.Particle.transform.localScale = Vector3.one;
             }
 
             _auraParticleData.Particle.transform.position =
-                _caster.AnimationController.GetAnimationFixedPoint(_auraParticleData.PointTag).position;
+                Caster.AnimationController.GetAnimationFixedPoint(_auraParticleData.PointTag).position;
         }
         //impact
         if (_impactParticleData != null)
@@ -124,7 +124,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
             }
 
             //set cast animation
-            _caster.AnimationController.SetAnimation("Cast");
+            //_caster.AnimationController.SetAnimationState(0);
 
             if (_castDuration > 0)
             {
@@ -133,7 +133,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
 
             if (_afterCastDelay > 0)
             {
-                _caster.AnimationController.SetAnimation("Idle");
+                Caster.AnimationController.SetAnimationState(AnimationStates.IDLE);
                 yield return new WaitForSeconds(_castDuration);
             }
         }
@@ -144,7 +144,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
 
             if (_afterAuraDelay > 0)
             {
-                _caster.AnimationController.SetAnimation("Idle");
+                Caster.AnimationController.SetAnimationState(AnimationStates.IDLE);
                 yield return new WaitForSeconds(_castDuration);
             }
         }                
@@ -155,14 +155,14 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
             if(_hopToPositionsTag != HopToPositionsTags.STAY_IN_PLACE)
             {
                 //_caster.ScalingTarget.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
-                _caster.Root.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
-                _caster.AnimationController.SetAnimation("HopIn");
+                Caster.Root.DOMove(jumpPos.position, _hopDuration).SetEase(Ease.Linear);
+                //_caster.AnimationController.SetAnimation("HopIn");
                 yield return new WaitForSeconds(_hopDuration);
             }
         }
 
         //melee animation
-        _caster.AnimationController.SetAnimation("MeleeAttack");
+        //_caster.AnimationController.SetAnimation("MeleeAttack");
 
         float thrustWait = 0;
         if (_thrustTowardsTheTarget)
@@ -173,12 +173,12 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
             var sequence = DOTween.Sequence();
             //sequence.Append(_caster.ScalingTarget.DOMove(jumpPos.position + direction * -1 * _thrustBackDistance, _thrustBuildUp).SetEase(_thurstEase));
             //sequence.Append(_caster.ScalingTarget.DOMove(targetOriginalPos.Transform.position, _thrustDuration));
-            sequence.Append(_caster.Root.DOMove(jumpPos.position + direction * -1 * _thrustBackDistance, _thrustBuildUp).SetEase(_thurstEase));
-            sequence.Append(_caster.Root.DOMove(targetOriginalPos.Transform.position, _thrustDuration));
+            sequence.Append(Caster.Root.DOMove(jumpPos.position + direction * -1 * _thrustBackDistance, _thrustBuildUp).SetEase(_thurstEase));
+            sequence.Append(Caster.Root.DOMove(targetOriginalPos.Transform.position, _thrustDuration));
             sequence.AppendInterval(_knockBackDelay);
             //sequence.Append(_caster.ScalingTarget.DOMove(casterOriginalPos.Transform.position, _thrustReturnDuration).SetEase(Ease.Linear));
-            sequence.Append(_caster.Root.DOMove(casterOriginalPos.Transform.position, _thrustReturnDuration).SetEase(Ease.Linear));
-            sequence.OnComplete(() => { _caster.AnimationController.SetAnimation("Idle"); });
+            sequence.Append(Caster.Root.DOMove(casterOriginalPos.Transform.position, _thrustReturnDuration).SetEase(Ease.Linear));
+            sequence.OnComplete(() => { Caster.AnimationController.SetAnimationState(AnimationStates.IDLE); });
 
             yield return new WaitForSeconds(_thrustBuildUp + _thrustDuration + _knockBackDelay);
         }
@@ -189,7 +189,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
         }
 
         //set caster to idle again after hit
-        _caster.AnimationController.SetAnimation("Idle");
+        Caster.AnimationController.SetAnimationState(AnimationStates.IDLE);
 
         //impact vfx
         if (_useImpact && _impactParticleData.Particle != null)
@@ -204,7 +204,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
 
         //play target's pain animation
         target.ScalingTarget.DOShakePosition(0.3f);
-        target.AnimationController.SetAnimation("Pain");
+        target.AnimationController.SetAnimationState(AnimationStates.FREEZE);
 
         //move target due to impact
         if (_knocksbackTarget)
@@ -215,7 +215,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
             //sequence.Append(target.ScalingTarget.transform.DOMove(targetOriginalPos.Transform.position, _knockBackReturnDuration).SetEase(Ease.InExpo));
             sequence.Append(target.Root.transform.DOMove(targetOriginalPos.Transform.position + (direction * _knockBackDistance), _knockBackDuration).SetEase(Ease.OutExpo));
             sequence.Append(target.Root.transform.DOMove(targetOriginalPos.Transform.position, _knockBackReturnDuration).SetEase(Ease.InExpo));
-            sequence.OnComplete(() => { target.AnimationController.SetAnimation("Idle"); });
+            sequence.OnComplete(() => { target.AnimationController.SetAnimationState(AnimationStates.IDLE); });
         }
 
         //delay after attack
@@ -243,6 +243,6 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
             _impactParticleData.Particle.transform.SetParent(transform);
         }
 
-        IsExecuting = false;
+        End();
     }
 }

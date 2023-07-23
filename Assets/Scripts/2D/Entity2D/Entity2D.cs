@@ -20,6 +20,8 @@ public class Entity2D : MonoBehaviour
     [SerializeField] private Entity2DStats _baseStats;
     [SerializeField] private MovesLearnedByLevelUpData _movesLearnByLevelUp;
     public MovesLearnedByLevelUpData MovesLearnedByLevelUp => _movesLearnByLevelUp;
+    [SerializeField] private Sprite _sprite;
+    public Sprite Sprite => _sprite;
     //[SerializeField] private GameObject _genericAnimatorPrefab;
     //[SerializeField] private Transform _root;
     //[SerializeField] private Transform _scalingTarget;
@@ -117,11 +119,6 @@ public class Entity2D : MonoBehaviour
         _id = data.id;
         _guid = data.guid;
         _level = data.level;
-    }
-
-    public void SetAnimationState(int animationState)
-    {
-        _animator.SetInteger("State", animationState);
     }
 
     public void AddActionPoints(int actionPoints)

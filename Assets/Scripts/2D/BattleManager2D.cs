@@ -50,6 +50,9 @@ public class BattleManager2D : Singleton<BattleManager2D>
     public Entity2D TurnHolder { get; private set; }
     public MovesIDs CurrentSelectedMove { get; private set; }
 
+    private static Queue<BattleEvent> BattleEvents;
+    private static BattleEvent _currentEvent;
+
     protected override void Awake()
     {
         base.Awake();
@@ -83,6 +86,42 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
         _backFromMovesButton.onClick.RemoveAllListeners();
         _backFromMovesButton.onClick.AddListener(BackFromMoves);
+
+        DisposeBattleEvents();
+    }
+
+    private void Update()
+    {
+        if(BattleEvents.Count > 0 && _currentEvent == null)
+        {
+            _currentEvent = BattleEvents.Dequeue();
+            if (_currentEvent.Prepare())
+            {
+                _currentEvent.Resolve();
+            }
+        }
+
+        if(_currentEvent != null && _currentEvent.Resolved)
+        {
+            _currentEvent.Dispose();
+            _currentEvent = null;
+        }
+    }
+
+    private static void DisposeBattleEvents()
+    {
+        if (BattleEvents != null)
+        {
+            while (BattleEvents.Count > 0)
+            {
+                var disposedEvent = BattleEvents.Dequeue();
+                disposedEvent.Dispose();
+            }
+
+            BattleEvents.Clear();
+        }
+
+        BattleEvents = new Queue<BattleEvent>();
     }
 
     private void SelectMove(int moveSlot)
@@ -94,14 +133,21 @@ public class BattleManager2D : Singleton<BattleManager2D>
         CurrentSelectedMove = move;
 
         var moveData = MonstersManager.MovesResources.Resources.Where(m => m.moveID == CurrentSelectedMove).FirstOrDefault();
-        if(moveData != null)
+        if (moveData != null)
+        {
+            //target choice
+        }
+
+        if (moveData != null)
         {
             var moveObjectInstance = Instantiate(moveData.movePrefab);
             var order = moveObjectInstance.GetComponent<BattleOrder2D>();
             order.SetCaster(TurnHolder);
             var target = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.RIGHT).Select(s => s.Entity).FirstOrDefault();
             order.SetTargets(new List<Entity2D> { target });
-            order.Execute();
+            //order.Execute();
+            BattleEvents.Enqueue(order);
+            //}
         }
     }
 
@@ -135,6 +181,8 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
     public static void Show()
     {
+        DisposeBattleEvents();
+
         var leftSidePositions = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.LEFT);
         var rightSidePositions = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.RIGHT);
         int leftSlotIndex = 0;
@@ -145,11 +193,11 @@ public class BattleManager2D : Singleton<BattleManager2D>
             if (posInfo.Entity as UnityEngine.Object == null)
                 continue;
 
-            var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
-            if (sorter != null)
-            {
-                sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
-            }
+            //var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
+            //if (sorter != null)
+            //{
+            //    sorter.Group.sortingLayerName = LayerMask.LayerToName(BattlefieldLayer);
+            //}
 
             //var slotObj = Instantiate(Instance._characterStateSlotPrefab);
             //var slot = slotObj.GetComponent<CharacterStateSlot>();
@@ -159,9 +207,9 @@ public class BattleManager2D : Singleton<BattleManager2D>
             //Instance._leftSlots.Add(slot);
             var slot = Instance.LeftSideCharacterSlots[leftSlotIndex];
             slot.SetEntity(posInfo.Entity);
+            slot.SetState(CharacterSlotStates.IDLE);
             slot.Show();
             leftSlotIndex++;
-
         }
 
         foreach (var posInfo in rightSidePositions)
@@ -169,11 +217,11 @@ public class BattleManager2D : Singleton<BattleManager2D>
             if (posInfo.Entity as UnityEngine.Object == null)
                 continue;
 
-            var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
-            if (sorter != null)
-            {
-                sorter.Group.sortingLayerName = LayerMask.LayerToName(Instance._battlefieldLayer);
-            }
+            //var sorter = posInfo.Entity.Root.GetComponentInChildren<SortingHelper>();
+            //if (sorter != null)
+            //{
+            //    sorter.Group.sortingLayerName = LayerMask.LayerToName(BattlefieldLayer);
+            //}
 
             //var slotObj = Instantiate(Instance._characterStateSlotPrefab);
             //var slot = slotObj.GetComponent<CharacterStateSlot>();
@@ -184,6 +232,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
             //Instance._rightSlots.Add(slot);
             var slot = Instance.RightSideCharacterSlots[rightSlotIndex];
             slot.SetEntity(posInfo.Entity);
+            slot.SetState(CharacterSlotStates.IDLE);
             slot.Show();
             rightSlotIndex++;
         }
@@ -230,6 +279,14 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
     private void UpdateInterface(Entity2D turnHolder)
     {
+        //character slots
+        var slot = LeftSideCharacterSlots.Concat(RightSideCharacterSlots).Where(slot => slot.Entity == turnHolder).FirstOrDefault();
+        if(slot != null)
+        {
+            slot.SetState(CharacterSlotStates.HIGHLIGHT);
+        }
+
+        //menu
         if (turnHolder.Side == TeamSides.RIGHT)
         {
             _battleMenuCanvas.SetActive(false);

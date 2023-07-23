@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseStats: {fileID: 11400000, guid: 19979e8090222cc4a8b41067d8ff017d, type: 2}
   _movesLearnByLevelUp: {fileID: 11400000, guid: 3e560d28a7c9f8a4e82c46cce477a792, type: 2}
+  _sprite: {fileID: 21300000, guid: 7747d2c284438ff41be1bf56f141b9dd, type: 3}
   _animator: {fileID: 8735347789502661630}
 --- !u!114 &4012352795798169501
 MonoBehaviour:
@@ -228,8 +229,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4618708847658832965}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -762055991
+  m_SortingLayer: 4
   m_SortingOrder: -240
 --- !u!1 &8221304557555429872
 GameObject:
@@ -272,7 +273,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 389053514712051334, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0
+      value: -0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 389053514712051334, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
@@ -292,7 +293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 729918276726347384, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.000045239925
+      value: -0.000044986606
       objectReference: {fileID: 0}
     - target: {fileID: 729918276726347384, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.x
@@ -300,15 +301,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 729918276726347384, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.124775
+      value: 0.124775045
       objectReference: {fileID: 0}
     - target: {fileID: 2796393380871905120, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.00015500933
+      value: 0.00015524402
       objectReference: {fileID: 0}
     - target: {fileID: 2796393380871905120, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.00000044703484
+      value: -0.000000014901161
       objectReference: {fileID: 0}
     - target: {fileID: 2796393380871905120, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.x
@@ -316,15 +317,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2796393380871905120, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.11000002
+      value: 0.10999998
       objectReference: {fileID: 0}
     - target: {fileID: 2857088854678673117, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.00000047683716
+      value: 0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 2857088854678673117, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.00000023841858
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2857088854678673117, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.x
@@ -336,19 +337,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4102043168407671858, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0
+      value: 0.00000011920929
       objectReference: {fileID: 0}
     - target: {fileID: 4102043168407671858, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: 0.00008476153
+      value: 0.00008491799
       objectReference: {fileID: 0}
     - target: {fileID: 4102043168407671858, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.x
-      value: 0.09500006
+      value: 0.09500018
       objectReference: {fileID: 0}
     - target: {fileID: 4102043168407671858, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.059365027
+      value: 0.059365034
       objectReference: {fileID: 0}
     - target: {fileID: 4797540344004141555, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -356,7 +357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4797540344004141555, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: 0
+      value: -0.000000029802322
       objectReference: {fileID: 0}
     - target: {fileID: 4797540344004141555, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.y
@@ -368,7 +369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6111485857624886966, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
-      value: 0.00000047683716
+      value: 0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: 6111485857624886966, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
@@ -444,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6203508969989872496, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.y
-      value: -0.00026024133
+      value: -0.0002600029
       objectReference: {fileID: 0}
     - target: {fileID: 6203508969989872496, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.x
@@ -452,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6203508969989872496, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Extent.y
-      value: 0.10463002
+      value: 0.10463001
       objectReference: {fileID: 0}
     - target: {fileID: 8812111511156692280, guid: f5ffea66c4fd21a478f8426a2282a3ca, type: 3}
       propertyPath: m_Bounds.m_Center.x
