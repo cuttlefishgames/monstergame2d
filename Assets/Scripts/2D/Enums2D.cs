@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BattleStates 
+{ 
+    INACTIVE = 0,
+    FILLING_BARS = 1, 
+    BATTLE_MENU = 2, 
+    MOVES_MENU = 3,
+    TARGET_SELECTION = 4,
+    RESOLVING_EVENTS = 5
+}
+
 public enum CharacterSlotStates
 {
     IDLE = 0,
@@ -38,7 +48,8 @@ public enum AnimationStates
 {
     IDLE = 0,
     WALK = 1,
-    FREEZE = 2
+    FREEZE = 2,
+    HURT = 3
 }
 
 public enum HopToPositionsTags

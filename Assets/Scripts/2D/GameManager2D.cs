@@ -58,6 +58,8 @@ public class GameManager2D : Singleton<GameManager2D>
         float increaseInterval = 0.0f;
         foreach (var ent in RightSideTeam)
         {
+            ent.Entity.SetSide(TeamSides.RIGHT);
+
             ent.Entity.AnimationController.SetAnimationState(AnimationStates.FREEZE);
 
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.RIGHT);
@@ -81,6 +83,8 @@ public class GameManager2D : Singleton<GameManager2D>
 
         foreach (var ent in LeftSideTeam)
         {
+            ent.Entity.SetSide(TeamSides.LEFT);
+
             ent.Entity.AnimationController.SetAnimationState(AnimationStates.FREEZE);
 
             var posInfo = Battlefield2D.AddEntity(ent.Entity, TeamSides.LEFT);
@@ -115,7 +119,8 @@ public class GameManager2D : Singleton<GameManager2D>
         transform.DOMove(transform.position, totalTimer).OnComplete(() =>
         {
             BattleManager2D.Show();
-            BattleManager2D.FillBars();
+            BattleManager2D.SetBattleActive(true);
+            BattleManager2D.SetBattleState(BattleStates.FILLING_BARS);
         });
     }
 

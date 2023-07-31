@@ -12,6 +12,7 @@ public class MovesResources : ScriptableObject
         public MovesTargets target;
         public GameObject movePrefab;
         public string moveName;
+        public string moveDescription;
     }
 
     [SerializeField] private List<MoveResource> _resources;

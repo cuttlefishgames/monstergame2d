@@ -28,6 +28,11 @@ public class Entity2D : MonoBehaviour
     [SerializeField] private Animator _animator;
     //private Animator _genericAnimator;
     private TeamSides _side = TeamSides.LEFT;
+    public void SetSide(TeamSides side)
+    {
+        _side = side;
+    }
+
     public List<MovesIDs> KnownMoves
     {
         get

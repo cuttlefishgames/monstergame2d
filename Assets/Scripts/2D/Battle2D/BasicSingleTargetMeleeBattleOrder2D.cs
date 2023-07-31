@@ -204,7 +204,7 @@ public class BasicSingleTargetMeleeBattleOrder2D : BattleOrder2D
 
         //play target's pain animation
         target.ScalingTarget.DOShakePosition(0.3f);
-        target.AnimationController.SetAnimationState(AnimationStates.FREEZE);
+        target.AnimationController.SetAnimationState(AnimationStates.HURT);
 
         //move target due to impact
         if (_knocksbackTarget)

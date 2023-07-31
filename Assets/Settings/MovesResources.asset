@@ -14,6 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resources:
   - moveID: 0
+    target: 5
     movePrefab: {fileID: 1699851944324262975, guid: a8eba9e3179199445acd21a1c2e70e51, type: 3}
+    moveName: Onslaught
+    moveDescription: Uses the body weight to slam violently at the foe.
   - moveID: 6
+    target: 5
     movePrefab: {fileID: 1699851944324262975, guid: f5d5e2022b3878d4c8ff52be798899b9, type: 3}
+    moveName: Flame
+    moveDescription: Conjures a flame and fires it at the foe.
