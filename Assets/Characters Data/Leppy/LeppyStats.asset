@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595b819b3da37294cbdd911d0c08888e, type: 3}
   m_Name: LeppyStats
   m_EditorClassIdentifier: 
-  _speed: 69
+  _baseConstitution: 50
+  _baseSpeed: 50
+  _baseAttack: 50
+  _baseDefense: 50
+  _baseMagic: 50
+  _baseResistance: 50

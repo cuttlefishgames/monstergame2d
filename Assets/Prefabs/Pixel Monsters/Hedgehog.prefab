@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2617ed05cae9a4092b9b11e84a45ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseStats: {fileID: 11400000, guid: 19979e8090222cc4a8b41067d8ff017d, type: 2}
-  _movesLearnByLevelUp: {fileID: 11400000, guid: 3e560d28a7c9f8a4e82c46cce477a792, type: 2}
+  _baseStats: {fileID: 11400000, guid: 8a0a4eab82160e647b307297d27520a0, type: 2}
+  _movesLearnByLevelUp: {fileID: 11400000, guid: 4c37f04bb0b5b634fac03cb0b1f91fc4, type: 2}
   _sprite: {fileID: 21300000, guid: c36372373e85dfd40aee763e68c94191, type: 3}
   _animator: {fileID: 5116934715235197535}
 --- !u!114 &2173105893053972874

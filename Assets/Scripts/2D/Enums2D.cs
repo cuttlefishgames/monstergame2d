@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DamageTypes
+{
+    PHYSICAL = 0,
+    MAGICAL = 1,
+    TRUE = 2
+}
+
 public enum BattleStates 
 { 
     INACTIVE = 0,
@@ -80,12 +87,14 @@ public enum Sizes
 public enum MovesTargets 
 {
     SELF = 0,
-    ALL_ALLIES = 1,
-    ALL_ALLIES_MINUS_SELF = 2,
-    ALL = 3,
-    ALL_MINUS_SELF = 4,
-    ENEMY = 5,
-    ALL_ENEMIES = 6
+    ALLY = 1,
+    ALL_ALLIES = 2,
+    ALL_ALLIES_MINUS_SELF = 3,
+    ALL = 4,
+    ALL_MINUS_SELF = 5,
+    ENEMY = 6,
+    ALL_ENEMIES = 7,
+    ANY = 8
 }
 
 public enum Stats

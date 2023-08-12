@@ -47,7 +47,7 @@ public class MoveToRandomPositionAction : IAAction2D
     {
         StopMovingToRandomPoint();
         Agent.isStopped = true;
-        Debug.Log("ENDED");
+        //Debug.Log("ENDED");
         base.End();
     }
 
@@ -67,7 +67,7 @@ public class MoveToRandomPositionAction : IAAction2D
 
     IEnumerator MoveToRandomPoint()
     {
-        Debug.Log("STARTED MOVE TO RANDOM POINT");
+        //Debug.Log("STARTED MOVE TO RANDOM POINT");
 
         Agent.SetDestination(_position);
         Agent.isStopped = false;

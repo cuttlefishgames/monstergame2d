@@ -6,6 +6,7 @@ using Monster.Utils;
 using DG.Tweening;
 using System.Linq;
 using System;
+using UnityEngine.InputSystem;
 
 public class GameManager2D : Singleton<GameManager2D>
 {
@@ -20,6 +21,7 @@ public class GameManager2D : Singleton<GameManager2D>
     public List<AIController2D> LeftSideTeam;
     public List<AIController2D> RightSideTeam;    
     public bool SummonBattleFieldAtStart;
+    private bool _battlefieldSummoned;
 
     private void Start()
     {
@@ -29,8 +31,20 @@ public class GameManager2D : Singleton<GameManager2D>
         }
     }
 
+    private void Update()
+    {
+        if (Keyboard.current[Key.Space].wasPressedThisFrame)
+        {
+            TestBattlefied();
+        }
+    }
+
     public void TestBattlefied()
     {
+        if (_battlefieldSummoned)
+            return;
+
+        _battlefieldSummoned = true;
 
         float totalTimer = 0;
 

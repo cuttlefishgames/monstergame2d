@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &24656099
 Transform:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: -1000
   m_Sprite: {fileID: 21300000, guid: 1560faa118e58254fb886fc158a316b0, type: 3}
-  m_Color: {r: 0, g: 0.764151, b: 0.16965163, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2793,8 +2793,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791777299}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 16, y: 9, z: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1006255292}
@@ -2841,8 +2841,8 @@ SpriteRenderer:
   m_SortingLayerID: -630015943
   m_SortingLayer: 1
   m_SortingOrder: -1000
-  m_Sprite: {fileID: 21300000, guid: 1560faa118e58254fb886fc158a316b0, type: 3}
-  m_Color: {r: 0, g: 0.764151, b: 0.16965163, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 62930719ecb27174aa07a9dc816b9273, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2951,7 +2951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &830998313
 Transform:
   m_ObjectHideFlags: 0
@@ -3493,7 +3493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1006255292
 Transform:
   m_ObjectHideFlags: 0
@@ -3528,7 +3528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1017828451
 Transform:
   m_ObjectHideFlags: 0
@@ -4072,7 +4072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1194160381
 Transform:
   m_ObjectHideFlags: 0
@@ -4612,7 +4612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1310459158
 Transform:
   m_ObjectHideFlags: 0
@@ -4670,7 +4670,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: -1000
   m_Sprite: {fileID: 21300000, guid: 1560faa118e58254fb886fc158a316b0, type: 3}
-  m_Color: {r: 0, g: 0.764151, b: 0.16965163, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5274,7 +5274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1392775650
 Transform:
   m_ObjectHideFlags: 0
@@ -5734,7 +5734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1477087850
 Transform:
   m_ObjectHideFlags: 0
@@ -5858,7 +5858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1507616954
 Transform:
   m_ObjectHideFlags: 0
@@ -6066,7 +6066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1557198354
 Transform:
   m_ObjectHideFlags: 0
@@ -6694,7 +6694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1699626595
 Transform:
   m_ObjectHideFlags: 0
@@ -6990,7 +6990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1858813487
 Transform:
   m_ObjectHideFlags: 0
@@ -7109,7 +7109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1981429047
 Transform:
   m_ObjectHideFlags: 0

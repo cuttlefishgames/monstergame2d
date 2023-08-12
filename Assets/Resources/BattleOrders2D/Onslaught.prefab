@@ -9709,7 +9709,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1687575213
-  m_SortingLayer: 1
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -9804,13 +9804,13 @@ MonoBehaviour:
   _hopToPositionsTag: 6
   _hopDuration: 0.5
   _thrustTowardsTheTarget: 1
-  _thrustBackDistance: 0.5
+  _thrustBackDistance: 0.25
   _thrustBuildUp: 1.5
   _thrustDuration: 0.25
   _thrustReturnDuration: 0.5
   _thurstEase: 1
   _knocksbackTarget: 1
-  _knockBackDistance: 1
+  _knockBackDistance: 0.5
   _knockBackDuration: 0.5
   _knockBackDelay: 0.1
   _knockBackReturnDuration: 0.5
@@ -14607,7 +14607,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1687575213
-  m_SortingLayer: 1
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -19478,7 +19478,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1687575213
-  m_SortingLayer: 1
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0

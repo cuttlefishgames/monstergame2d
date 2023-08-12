@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595b819b3da37294cbdd911d0c08888e, type: 3}
   m_Name: TsuchidraStats
   m_EditorClassIdentifier: 
-  _speed: 60
+  _baseConstitution: 55
+  _baseSpeed: 65
+  _baseAttack: 70
+  _baseDefense: 45
+  _baseMagic: 70
+  _baseResistance: 45

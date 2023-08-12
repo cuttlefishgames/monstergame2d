@@ -7,13 +7,48 @@ using TMPro;
 using System;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class BattleManager2D : Singleton<BattleManager2D>
 {
+    [Serializable]
     private class ArrowData
     {
         public RectTransform ArrowRect;
-        public Entity2D Entity;
+        [HideInInspector] public Entity2D Entity;
+        public ArrowData UP;
+        public ArrowData Down;
+        public ArrowData Left;
+        public ArrowData Right;
+        public TeamSides Side;
+
+        public void Highlight()
+        {
+            if (Entity == null)
+            {
+                return;
+            }
+
+            var canvasRect = CanvasRect;
+            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(Entity.transform.position);
+            Vector2 WorldObject_ScreenPosition = new Vector2(
+            ((ViewportPosition.x * canvasRect.sizeDelta.x) - (canvasRect.sizeDelta.x * 0.5f)),
+            ((ViewportPosition.y * canvasRect.sizeDelta.y) - (canvasRect.sizeDelta.y * 0.5f)));
+
+            //now you can set the position of the ui element
+            ArrowRect.anchoredPosition = WorldObject_ScreenPosition;
+            ArrowRect.gameObject.SetActive(true);
+        }
+
+        public void Downlight()
+        {
+            ArrowRect.gameObject.SetActive(false);
+        }
+
+        public void Clear()
+        {
+            Entity = null;
+        }
     }
 
     public static bool BattleActive { get; private set; }
@@ -21,6 +56,8 @@ public class BattleManager2D : Singleton<BattleManager2D>
     public static bool TurnHolderActed { get; private set; }
     public static float FillLimit => Instance._fillLimit;
     public static int BattlefieldLayer => Instance._battlefieldLayer;
+    [SerializeField] private bool _controlEnemiesToo = false;
+    public static bool ControlEnemiesToo => Instance._controlEnemiesToo;
     [SerializeField] private int _battlefieldLayer;
     [SerializeField] private int _fillLimit = 2000;
     [SerializeField] private int _speedDamp = 0;
@@ -65,10 +102,16 @@ public class BattleManager2D : Singleton<BattleManager2D>
     [SerializeField] private TextMeshProUGUI _moveElement;
 
     //target arrows
-    [SerializeField] private List<RectTransform> _leftSideArrows;
-    [SerializeField] private List<RectTransform> _rightSideArrows;
-    private static List<ArrowData> _leftArrowsData = new List<ArrowData>();
-    private static List<ArrowData> _rightArrowsData = new List<ArrowData>();
+    [SerializeField] private ArrowData _leftArrow1;
+    [SerializeField] private ArrowData _leftArrow2;
+    [SerializeField] private ArrowData _leftArrow3;
+    [SerializeField] private ArrowData _leftArrow4;
+    [SerializeField] private ArrowData _rightArrow1;
+    [SerializeField] private ArrowData _rightArrow2;
+    [SerializeField] private ArrowData _rightArrow3;
+    [SerializeField] private ArrowData _rightArrow4;
+    private static List<ArrowData> _arrowsData;
+    private static ArrowData _currentArrowData;
 
     private Coroutine _fillBars;
     private List<CharacterStateSlot> _leftSlots;
@@ -82,25 +125,82 @@ public class BattleManager2D : Singleton<BattleManager2D>
     public static Entity2D TurnHolder { get; private set; }
     public static MovesIDs CurrentSelectedMove { get; private set; }
     private static BattleEvent _currentMoveEvent;
-
+    private static MovesResources.MoveResource _currentMoveData;
     private static Queue<BattleEvent> BattleEvents;
     private static BattleEvent _currentEvent;
+
+    public static RectTransform CanvasRect { get; private set; }
+
+    private BattleUIControls _uiControls;
 
     protected override void Awake()
     {
         base.Awake();
 
-        _leftArrowsData = new List<ArrowData>();
-        foreach (var arrow in _leftSideArrows)
-        {
-            _leftArrowsData.Add(new ArrowData() { ArrowRect = arrow });
-        }
+        CanvasRect = _battleMenuCanvas.GetComponent<RectTransform>();
 
-        _rightArrowsData = new List<ArrowData>();
-        foreach (var arrow in _rightSideArrows)
-        {
-            _rightArrowsData.Add(new ArrowData() { ArrowRect = arrow });
-        }
+        _uiControls = new BattleUIControls();
+        _uiControls.BattleUINavigation.MoveUp.performed += ctx => UIMove(Directions.UP);
+        _uiControls.BattleUINavigation.MoveDown.performed += ctx => UIMove(Directions.DOWN);
+        _uiControls.BattleUINavigation.MoveLeft.performed += ctx => UIMove(Directions.LEFT);
+        _uiControls.BattleUINavigation.MoveRight.performed += ctx => UIMove(Directions.RIGHT);
+        _uiControls.BattleUINavigation.LeftPress.performed += ctx => UILeftPress();
+
+        _uiControls.BattleUINavigation.RotateUp.performed += ctx => UIRotate(Directions.UP);
+        _uiControls.BattleUINavigation.RotateDown.performed += ctx => UIRotate(Directions.DOWN);
+        _uiControls.BattleUINavigation.RotateLeft.performed += ctx => UIRotate(Directions.LEFT);
+        _uiControls.BattleUINavigation.RotateRight.performed += ctx => UIRotate(Directions.RIGHT);
+        _uiControls.BattleUINavigation.PressRight.performed += ctx => UIRightPress();
+
+        _uiControls.BattleUINavigation.Confirm.performed += ctx => UIConfirm();
+        _uiControls.BattleUINavigation.Cancel.performed += ctx => UICancel();
+        _uiControls.BattleUINavigation.Check.performed += ctx => UICheck();
+        _uiControls.BattleUINavigation.Switch.performed += ctx => UISwitch();
+
+        _arrowsData = new List<ArrowData>();
+        _arrowsData.Add(_leftArrow1);
+        _arrowsData.Add(_leftArrow2);
+        _arrowsData.Add(_leftArrow3);
+        _arrowsData.Add(_leftArrow4);
+        _arrowsData.Add(_rightArrow1);
+        _arrowsData.Add(_rightArrow2);
+        _arrowsData.Add(_rightArrow3);
+        _arrowsData.Add(_rightArrow4);
+
+        //navigation left side
+        _arrowsData[0].UP = _arrowsData[2];
+        _arrowsData[0].Down = _arrowsData[1];
+        _arrowsData[0].Left = _arrowsData[6];
+        _arrowsData[0].Right = _arrowsData[6];
+        _arrowsData[1].UP = _arrowsData[0];
+        _arrowsData[1].Down = _arrowsData[3];
+        _arrowsData[1].Left = _arrowsData[5];
+        _arrowsData[1].Right = _arrowsData[5];
+        _arrowsData[2].UP = _arrowsData[3];
+        _arrowsData[2].Down = _arrowsData[0];
+        _arrowsData[2].Left = _arrowsData[6];
+        _arrowsData[2].Right = _arrowsData[6];
+        _arrowsData[3].UP = _arrowsData[1];
+        _arrowsData[3].Down = _arrowsData[2];
+        _arrowsData[3].Left = _arrowsData[7];
+        _arrowsData[3].Right = _arrowsData[7];
+        //navigation right side
+        _arrowsData[4].UP = _arrowsData[6];
+        _arrowsData[4].Down = _arrowsData[5];
+        _arrowsData[4].Left = _arrowsData[0];
+        _arrowsData[4].Right = _arrowsData[0];
+        _arrowsData[5].UP = _arrowsData[4];
+        _arrowsData[5].Down = _arrowsData[7];
+        _arrowsData[5].Left = _arrowsData[1];
+        _arrowsData[5].Right = _arrowsData[1];
+        _arrowsData[6].UP = _arrowsData[7];
+        _arrowsData[6].Down = _arrowsData[4];
+        _arrowsData[6].Left = _arrowsData[2];
+        _arrowsData[6].Right = _arrowsData[2];
+        _arrowsData[7].UP = _arrowsData[5];
+        _arrowsData[7].Down = _arrowsData[6];
+        _arrowsData[7].Left = _arrowsData[3];
+        _arrowsData[7].Right = _arrowsData[3];
 
         _lastMoveBtn = _move1Button.gameObject;
 
@@ -137,7 +237,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
         //move target selection
         _backFromTargetSelectionMoveBtn.onClick.RemoveAllListeners();
-        _backFromTargetSelectionMoveBtn.onClick.AddListener(() => 
+        _backFromTargetSelectionMoveBtn.onClick.AddListener(() =>
         {
             SetBattleState(BattleStates.MOVES_MENU);
         });
@@ -145,17 +245,28 @@ public class BattleManager2D : Singleton<BattleManager2D>
         _confirmTargetOfMoveBtn.onClick.RemoveAllListeners();
         _confirmTargetOfMoveBtn.onClick.AddListener(() =>
         {
-            if (TurnHolder.Side == TeamSides.LEFT)
-            {
-                SetupCurrentMove(GetRandomTarget(TeamSides.RIGHT));
-            }
-            else
-            {
-                SetupCurrentMove(GetSelectedTargets());
-            }
+            SetupCurrentMove(GetSelectedTargets());
+            //if (TurnHolder.Side == TeamSides.LEFT)
+            //{
+            //    SetupCurrentMove(GetRandomTarget(TeamSides.RIGHT));
+            //}
+            //else
+            //{
+            //    SetupCurrentMove(GetSelectedTargets());
+            //}
         });
 
         DisposeBattleEvents();
+    }
+
+    private void OnEnable()
+    {
+        _uiControls.BattleUINavigation.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _uiControls.BattleUINavigation.Disable();
     }
 
     private void Update()
@@ -185,13 +296,192 @@ public class BattleManager2D : Singleton<BattleManager2D>
             //end turn
             SetBattleState(BattleStates.FILLING_BARS);
         }
+
+        if (BattleState == BattleStates.TARGET_SELECTION)
+        {
+            //if(Input.GetKeyDown(KeyCode.))
+        }
+    }
+    
+    private void CalcDamage(Entity2D caster, Entity2D target, float power, Stats offensiveStat, Stats defensiveStat, DamageTypes damageType)
+    {
+        //var casterStats = caster.BaseStats
+    }
+
+    
+
+    private void UIMove(Directions direction)
+    {
+
+    }
+
+    private void UILeftPress()
+    {
+
+    }
+
+    private void UIRotate(Directions direction)
+    {
+        if (BattleState == BattleStates.TARGET_SELECTION)
+        {
+            if (_currentMoveEvent != null && _currentMoveData != null && TurnHolder != null)
+            {
+                DownlightArrows();
+                ArrowData next = _currentArrowData;
+                switch (_currentMoveData.target)
+                {
+                    case MovesTargets.SELF:
+                        //highlight self arrow
+                        _arrowsData.Where(a => a.Entity == TurnHolder).FirstOrDefault().Highlight();
+                        break;
+                    case MovesTargets.ALL:
+                        //hightlight all arrows
+                        _arrowsData.ForEach(a => a.Highlight());
+                        break;
+                    case MovesTargets.ALL_MINUS_SELF:
+                        //hightlight all allies minus caster arrows
+                        _arrowsData.Where(a => a.Entity != TurnHolder).ToList().ForEach(a => a.Highlight());
+                        break;
+                    case MovesTargets.ALL_ALLIES:
+                        //hightlight all allies arrows
+                        _arrowsData.Where(a => a.Side == TurnHolder.Side).ToList().ForEach(a => a.Highlight());
+                        break;
+                    case MovesTargets.ALL_ALLIES_MINUS_SELF:
+                        //hightlight all allies minus caster arrows
+                        _arrowsData.Where(a => a.Side == TurnHolder.Side && a.Entity != TurnHolder).ToList().ForEach(a => a.Highlight());
+                        break;
+                    case MovesTargets.ALLY:
+                        //hightlight single ally
+                        switch (direction)
+                        {
+                            case Directions.UP:
+                                do
+                                {
+                                    next = next.UP;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                            case Directions.DOWN:
+                                do
+                                {
+                                    next = next.Down;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                        }
+                        _currentArrowData.Highlight();
+                        break;
+                    case MovesTargets.ENEMY:
+                        //hightlight single enemy
+                        switch (direction)
+                        {
+                            case Directions.UP:
+                                do
+                                {
+                                    next = next.UP;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                            case Directions.DOWN:
+                                do
+                                {
+                                    next = next.Down;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                        }
+                        _currentArrowData.Highlight();
+                        break;
+                    case MovesTargets.ANY:
+                        //hightlight a single entity
+                        switch (direction)
+                        {
+                            case Directions.UP:
+                                do
+                                {
+                                    next = next.UP;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                            case Directions.DOWN:
+                                do
+                                {
+                                    next = next.Down;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                            case Directions.LEFT:
+                                do
+                                {
+                                    next = next.Left;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                            case Directions.RIGHT:
+                                do
+                                {
+                                    next = next.Right;
+                                } while (next.Entity == null);
+                                _currentArrowData = next;
+                                break;
+                        }
+                        _currentArrowData.Highlight();
+                        break;
+                    case MovesTargets.ALL_ENEMIES:
+                        //hightlight all enemies
+                        _arrowsData.Where(a => a.Side != TurnHolder.Side).ToList().ForEach(a => a.Highlight());
+                        break;
+                }
+            }
+        }
+    }
+
+    private void UIRightPress()
+    {
+
+    }
+
+    private void UIConfirm()
+    {
+
+    }
+
+    private void UICancel()
+    {
+        switch (BattleState)
+        {
+            case BattleStates.INACTIVE:
+                break;
+            case BattleStates.FILLING_BARS:
+                break;
+            case BattleStates.RESOLVING_EVENTS:
+                break;
+            case BattleStates.BATTLE_MENU:
+                break;
+            case BattleStates.MOVES_MENU:
+                SetBattleState(BattleStates.BATTLE_MENU);
+                break;
+            case BattleStates.TARGET_SELECTION:
+                SetBattleState(BattleStates.MOVES_MENU);
+                break;
+        }
+    }
+
+    private void UICheck()
+    {
+
+    }
+
+    private void UISwitch()
+    {
+
     }
 
     public static void SetBattleState(BattleStates state)
     {
         BattleState = state;
 
-        switch (BattleState) 
+        switch (BattleState)
         {
             case BattleStates.INACTIVE:
 
@@ -213,7 +503,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 if (slot != null)
                 {
                     slot.SetState(CharacterSlotStates.HIGHLIGHT);
-                }           
+                }
 
                 Instance._battleMenuCanvas.SetActive(true);
                 Instance._battleMenuPanel.SetActive(true);
@@ -222,11 +512,14 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 Instance._eventSysten.SetSelectedGameObject(null);
                 Instance._eventSysten.SetSelectedGameObject(Instance._movesButton.gameObject);
 
-                //hide menu if it is an enemy
-                if (TurnHolder.Side == TeamSides.RIGHT)
+                if (!ControlEnemiesToo)
                 {
-                    Instance._battleMenuCanvas.SetActive(false);
-                    SetBattleState(BattleStates.MOVES_MENU);
+                    //hide menu if it is an enemy
+                    if (TurnHolder.Side == TeamSides.RIGHT)
+                    {
+                        Instance._battleMenuCanvas.SetActive(false);
+                        SetBattleState(BattleStates.MOVES_MENU);
+                    }
                 }
 
                 break;
@@ -251,14 +544,17 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 Instance._move6Text.text = TurnHolder.KnownMoves[5] != MovesIDs.NONE ? TurnHolder.KnownMoves[5].ToString() : "--";
 
                 //hide menu if it is an enemy
-                if (TurnHolder.Side == TeamSides.RIGHT)
+                if (!ControlEnemiesToo)
                 {
-                    Instance._battleMenuCanvas.SetActive(false);
-                    var moves = TurnHolder.KnownMoves.Where(m => m != MovesIDs.NONE).ToList();
-                    var random = new System.Random();
-                    var move = moves[random.Next(moves.Count)];
-                    var moveIndex = TurnHolder.KnownMoves.IndexOf(move);
-                    SelectMove(moveIndex);
+                    if (TurnHolder.Side == TeamSides.RIGHT)
+                    {
+                        Instance._battleMenuCanvas.SetActive(false);
+                        var moves = TurnHolder.KnownMoves.Where(m => m != MovesIDs.NONE).ToList();
+                        var random = new System.Random();
+                        var move = moves[random.Next(moves.Count)];
+                        var moveIndex = TurnHolder.KnownMoves.IndexOf(move);
+                        SelectMove(moveIndex);
+                    }
                 }
 
                 break;
@@ -274,12 +570,12 @@ public class BattleManager2D : Singleton<BattleManager2D>
                 Instance._confirmTargetOfMoveBtn.OnSelect(null);
 
                 //hide menu if it is an enemy
-                if (TurnHolder.Side == TeamSides.RIGHT)
-                {
-                    Instance._battleMenuCanvas.SetActive(false);
-                    SetupCurrentMove(GetRandomTarget(TeamSides.LEFT));
-                    return;
-                }
+                //if (TurnHolder.Side == TeamSides.RIGHT)
+                //{
+                //    Instance._battleMenuCanvas.SetActive(false);
+                //    SetupCurrentMove(GetRandomTarget(TeamSides.LEFT));
+                //    return;
+                //}
 
                 var moveData = MonstersManager.MovesResources.Resources.Where(m => m.moveID == CurrentSelectedMove).FirstOrDefault();
 
@@ -293,14 +589,17 @@ public class BattleManager2D : Singleton<BattleManager2D>
                     {
                         case TeamSides.LEFT:
                             target = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.RIGHT).Select(s => s.Entity).FirstOrDefault();
+                            _currentArrowData = _arrowsData.Where(a => a.Entity == target).FirstOrDefault();
                             break;
                         case TeamSides.RIGHT:
                             target = Battlefield2D.GetAllCharacterSlotsOfSide(TeamSides.LEFT).Select(s => s.Entity).FirstOrDefault();
+                            _currentArrowData = _arrowsData.Where(a => a.Entity == target).FirstOrDefault();
                             break;
                     }
 
                     //order.SetTargets(new List<Entity2D> { target });
                     _currentMoveEvent = order;
+                    _currentMoveData = moveData;
                     //order.Execute();
                     //BattleEvents.Enqueue(order);
                     //}
@@ -313,6 +612,15 @@ public class BattleManager2D : Singleton<BattleManager2D>
                     Instance._moveElement.text = "Ele.: Pyro";
 
                     HighlightArrows(TurnHolder, target, moveData.target);
+                }
+
+                if (!ControlEnemiesToo)
+                {
+                    if (TurnHolder.Side == TeamSides.RIGHT)
+                    {
+                        Instance._battleMenuCanvas.SetActive(false);
+                        SetupCurrentMove(GetSelectedTargets());
+                    }
                 }
 
                 break;
@@ -330,74 +638,67 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
     private static void DownlightArrows()
     {
-        _leftArrowsData.ForEach(a => a.ArrowRect.gameObject.SetActive(false));
-        _rightArrowsData.ForEach(a => a.ArrowRect.gameObject.SetActive(false));
+        _arrowsData.ForEach(a => a.Downlight());
     }
 
     private static void HighlightArrows(Entity2D caster, Entity2D defaultTarget, MovesTargets targetType)
     {
         DownlightArrows();
         List<ArrowData> arrows = new List<ArrowData>();
-        var allArrows = _leftArrowsData.Concat(_rightArrowsData).ToList();
 
         switch (targetType)
         {
             case MovesTargets.SELF:
-                arrows.Add(allArrows.Where(a => a.Entity == caster).FirstOrDefault());
+                arrows.Add(_arrowsData.Where(a => a.Entity == caster).FirstOrDefault());
                 break;
             case MovesTargets.ALL:
-                arrows = allArrows;
+                arrows = _arrowsData;
                 break;
             case MovesTargets.ALL_MINUS_SELF:
-                arrows = allArrows.Where(a => a.Entity != caster).ToList();
+                arrows = _arrowsData.Where(a => a.Entity != caster).ToList();
+                break;
+            case MovesTargets.ALLY:
+                arrows.Add(_arrowsData.Where(a => a.Entity == caster).FirstOrDefault());
                 break;
             case MovesTargets.ALL_ALLIES:
                 if (caster.Side == TeamSides.LEFT)
                 {
-                    arrows = _leftArrowsData;
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.LEFT).ToList();
                 }
                 else
                 {
-                    arrows = _rightArrowsData;
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.RIGHT).ToList();
                 }
                 break;
             case MovesTargets.ALL_ALLIES_MINUS_SELF:
                 if (caster.Side == TeamSides.LEFT)
                 {
-                    arrows = _leftArrowsData.Where(a => a.Entity != caster).ToList();
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.LEFT && a.Entity != caster).ToList();
                 }
                 else
                 {
-                    arrows = _rightArrowsData.Where(a => a.Entity != caster).ToList();
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.RIGHT && a.Entity != caster).ToList();
                 }
                 break;
             case MovesTargets.ENEMY:
-                arrows.Add(allArrows.Where(a => a.Entity = defaultTarget).FirstOrDefault());
+                arrows.Add(_arrowsData.Where(a => a.Entity == defaultTarget).FirstOrDefault());
+                break;
+            case MovesTargets.ANY:
+                arrows.Add(_arrowsData.Where(a => a.Entity == defaultTarget).FirstOrDefault());
                 break;
             case MovesTargets.ALL_ENEMIES:
                 if (caster.Side == TeamSides.LEFT)
                 {
-                    arrows = _rightArrowsData;
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.RIGHT).ToList();
                 }
                 else
                 {
-                    arrows = _leftArrowsData;
+                    arrows = _arrowsData.Where(a => a.Side == TeamSides.LEFT).ToList();
                 }
                 break;
         }
 
-        var canvasRect = Instance._battleMenuCanvas.GetComponent<RectTransform>();
-        foreach (var arrow in arrows)
-        {
-            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(arrow.Entity.transform.position);
-            Vector2 WorldObject_ScreenPosition = new Vector2(
-            ((ViewportPosition.x * canvasRect.sizeDelta.x) - (canvasRect.sizeDelta.x * 0.5f)),
-            ((ViewportPosition.y * canvasRect.sizeDelta.y) - (canvasRect.sizeDelta.y * 0.5f)));
-
-            //now you can set the position of the ui element
-            arrow.ArrowRect.anchoredPosition = WorldObject_ScreenPosition;
-            arrow.ArrowRect.gameObject.SetActive(true);
-        }
+        arrows.ForEach(a => a.Highlight());
     }
 
     private static void DisposeBattleEvents()
@@ -423,10 +724,10 @@ public class BattleManager2D : Singleton<BattleManager2D>
         switch (side)
         {
             case TeamSides.LEFT:
-                var possibleLeftTargets = _leftArrowsData.Where(a => a.Entity != null).ToList();
+                var possibleLeftTargets = _arrowsData.Where(a => a.Side == TeamSides.RIGHT && a.Entity != null).ToList();
                 return new List<Entity2D> { possibleLeftTargets[random.Next(possibleLeftTargets.Count)].Entity };
             case TeamSides.RIGHT:
-                var possibleRighTargets = _rightArrowsData.Where(a => a.Entity != null).ToList();
+                var possibleRighTargets = _arrowsData.Where(a => a.Side == TeamSides.LEFT && a.Entity != null).ToList();
                 return new List<Entity2D> { possibleRighTargets[random.Next(possibleRighTargets.Count)].Entity };
             default:
                 return new List<Entity2D>();
@@ -435,7 +736,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
 
     private static List<Entity2D> GetSelectedTargets()
     {
-        return _leftArrowsData.Concat(_rightArrowsData).
+        return _arrowsData.
             Where(a => a.ArrowRect.gameObject.activeSelf).Select(a => a.Entity).ToList();
     }
 
@@ -453,6 +754,11 @@ public class BattleManager2D : Singleton<BattleManager2D>
         {
             _currentMoveEvent.Discard();
             _currentMoveEvent.Dispose();
+        }
+
+        if (_currentMoveData != null)
+        {
+            _currentMoveData = null;
         }
     }
 
@@ -510,7 +816,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
             slot.SetEntity(posInfo.Entity);
             slot.SetState(CharacterSlotStates.IDLE);
             slot.Show();
-            _leftArrowsData[leftSlotIndex].Entity = posInfo.Entity;
+            _arrowsData[leftSlotIndex].Entity = posInfo.Entity;
             leftSlotIndex++;
         }
 
@@ -537,7 +843,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
             slot.SetEntity(posInfo.Entity);
             slot.SetState(CharacterSlotStates.IDLE);
             slot.Show();
-            _rightArrowsData[rightSlotIndex].Entity = posInfo.Entity;
+            _arrowsData[rightSlotIndex + 4].Entity = posInfo.Entity;
             rightSlotIndex++;
         }
 
@@ -569,7 +875,7 @@ public class BattleManager2D : Singleton<BattleManager2D>
         {
             foreach (var ent in allEntites)
             {
-                var fill = Mathf.CeilToInt(_fillSpeed * Time.deltaTime * (ent.BaseStats.Speed + _speedDamp));
+                var fill = Mathf.CeilToInt(_fillSpeed * Time.deltaTime * (ent.BaseStats.BaseSpeed + _speedDamp));
                 ent.AddActionPoints(fill);
                 if (ent.ActionPoints >= _fillLimit)
                 {

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595b819b3da37294cbdd911d0c08888e, type: 3}
   m_Name: HootrootStats
   m_EditorClassIdentifier: 
-  _speed: 35
+  _baseConstitution: 50
+  _baseSpeed: 30
+  _baseAttack: 35
+  _baseDefense: 60
+  _baseMagic: 45
+  _baseResistance: 80
