@@ -73,7 +73,7 @@ public class Battlefield2D : Singleton<Battlefield2D>
         base.Awake();
 
         _animator = GetComponent<Animator>();
-        _animator.keepAnimatorControllerStateOnDisable = true;
+        _animator.keepAnimatorStateOnDisable = true;
         //_animation = GetComponent<Animation>();
 
         //character positions
